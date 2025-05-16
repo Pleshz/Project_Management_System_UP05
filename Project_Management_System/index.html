@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход | Project Manager</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body class="auth-theme">
+  <div class="auth-container">
+    <div class="auth-card">
+      <form class="auth-form" autocomplete="off" aria-label="Вход в Project Manager">
+        <h1 class="auth-title">Вход в систему</h1>
+        <div class="auth-fields">
+          <div class="input-group">
+            <label for="login" class="input-label">Логин</label>
+            <input
+              type="text"
+              id="login"
+              name="login"
+              class="input-field"
+              placeholder="Введите логин"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="password" class="input-label">Пароль</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="input-field"
+              placeholder="Введите пароль"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+        </div>
+        <div class="auth-actions">
+          <button type="submit" class="btn primary" aria-label="Войти">Авторизоваться</button>
+        </div>
+        <nav class="auth-links" aria-label="Дополнительные действия">
+          <a href="registration.html" class="link link-secondary">Зарегистрироваться</a>
+          <a href="#" class="link link-secondary">Забыл пароль?</a>
+        </nav>
+      </form>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

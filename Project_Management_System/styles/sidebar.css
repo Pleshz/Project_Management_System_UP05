@@ -1,0 +1,294 @@
+/* Новый sidebar — только вертикальные круглые/скруглённые кнопки-иконки без текста */
+/* Строго вертикальный sidebar на desktop/large экранах */
+ul{
+  margin: 0px;
+  padding: 0px;
+}
+.icon-sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 75px;
+  height: 100vh;
+  background: #fff;
+  border-right: 1.5px solid #e2e7ee;
+  display: flex;
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+  box-shadow: 2px 0 15px rgba(50,60,100,0.03);
+}
+.icon-sidebar-nav {
+  display: flex;
+  flex-direction: column !important;
+  align-items: center;
+  gap: 19px;
+  margin-top: 29px;
+  width: 100%;
+}
+.sidebar-btn {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: none;
+  margin: 0;
+  background: transparent;
+  color: #4973af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.95em;
+  transition: background 0.17s, box-shadow 0.17s, color 0.17s, scale 0.14s;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  box-shadow: none;
+}
+.sidebar-btn:focus,
+.sidebar-btn:hover {
+  background: var(--accent, #e7f3ff);
+  color: var(--primary, #1761dc);
+  scale: 1.09;
+  box-shadow: 0 2px 10px rgba(88,135,209,0.09);
+}
+.sidebar-btn.active {
+  background: linear-gradient(130deg, #e9f4ff 60%, #d4e6f7 100%);
+  color: #1761dc;
+  box-shadow: 0 3.5px 22px -2.5px #297cf741;
+  font-weight: 900;
+}
+.icon-sidebar-bottom {
+  margin-bottom: 36px;
+  width: 100%;
+  display: flex;
+  flex-direction: column !important;
+  align-items: center;
+  gap: 7px;
+}
+.theme-btn {
+  background: #f7faff;
+  box-shadow: 0 2px 13px 0px #1976d20d;
+  color: #287af8;
+  font-size: 1.45em;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.17s, color 0.17s, box-shadow 0.17s;
+  cursor: pointer;
+  outline: none;
+}
+.theme-btn:focus,
+.theme-btn:hover {
+  background: #287af8;
+  color: #fff;
+  box-shadow: 0 2px 16px 0px #1360af2a;
+}
+.theme-icon {
+  transition: color 0.15s, transform 0.2s;
+}
+/* Основной контент теперь всегда сдвинут вправо! */
+.main-content {
+  margin-left: 72px !important;
+  flex: 1;
+  padding: 2.6em min(5vw,64px) 1.2em 2.8em;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: margin 0.21s;
+}
+.user-profile h2 {
+  margin-top: 0;
+  margin-bottom: 1.1em;
+  color: var(--primary);
+  font-weight: 700;
+}
+.profile-block {
+  background: #f7faff;
+  padding: 1.8em 1.5em 1.2em 1.5em;
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 8px rgba(0,127,255,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+.profile-info div {
+  margin-bottom: 0.42em;
+  font-size: 1.08em;
+  color: #333;
+}
+.profile-actions {
+  display: flex;
+  gap: 1em;
+}
+.btn.danger {
+  background: var(--danger);
+  color: red;
+}
+.btn.danger:hover,
+.btn.danger:focus {
+  background: #ff431f;
+}
+
+/* Показ/скрытие секций */
+.section { display: none; }
+.section.active { display: block; }
+
+/* Таблицы */
+.table-block {
+  background: #fff;
+  border-radius: var(--border-radius);
+  padding: 1.5em 1.1em 1.2em 1.1em;
+  box-shadow: 0 1px 10px rgba(60,150,255,0.02);
+}
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.45em;
+  margin-bottom: 0.5em;
+}
+th, td {
+  text-align: left;
+  padding: 0.55em 1em 0.54em 0.3em;
+  font-size: 1em;
+  border-radius: 10px;
+}
+th {
+  background: #f3f7ff;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+td {
+  background: #f7fafb;
+  color: #222;
+}
+
+/* Kanban доска */
+.kanban-preview {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5em;
+  border-radius: 15px;
+  background: #f8fbfd;
+  margin-top: 1.2em;
+  padding: 1.7em 0.6em;
+  justify-content: flex-start;
+  overflow: auto;
+}
+.kanban-col {
+  background: #f3f7ff;
+  border-radius: 13px;
+  min-width: 150px;
+  padding: 0.87em 0.65em;
+  font-size: 1.07em;
+  font-weight: 600;
+  color: var(--primary);
+  box-shadow: 0 1px 3px rgba(0,100,200,0.04);
+  margin-right: 0.2em;
+}
+.kanban-card {
+  background: #fff;
+  color: #285;
+  font-size: 1em;
+  border-radius: 9px;
+  padding: 0.5em 0.7em;
+  margin-top: 1em;
+  box-shadow: 0 1px 3px rgba(0,90,160,0.08);
+  font-weight: 500;
+}
+.kanban-card.done {
+  background: #e2f7cb;
+  color: #50683f;
+}
+
+/* Тёмная тема для sidebar */
+.dark-theme .icon-sidebar {
+  background: #243249;
+  border-right: 1.5px solid #283042;
+}
+.dark-theme .sidebar-btn { color: #aed0ff; background: none; }
+.dark-theme .sidebar-btn:focus,
+.dark-theme .sidebar-btn:hover { background: #2a4572; color: #fff; }
+.dark-theme .sidebar-btn.active { background: linear-gradient(130deg,#295591 80%,#235397 100%); color: #fff; }
+.dark-theme .theme-btn { background: #242c3a; color: #8ed3ff; }
+.dark-theme .theme-btn:focus,
+.dark-theme .theme-btn:hover { background: #1761dc; color: #fff; }
+
+/* Остальные стили для основного контента, kanban и т.д. остаются */
+
+/* Адаптивность sidebar и основного контента */
+@media (max-width: 900px) {
+  .icon-sidebar {
+    flex-direction: row !important;
+    width: 100vw;
+    height: 62px;
+    min-height: 0;
+    max-height: 62px;
+    left: 0; top: 0;
+    border-right: none;
+    border-bottom: 1.5px solid #e2e7ee;
+    box-shadow: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5em;
+  }
+  .icon-sidebar-nav {
+    flex-direction: row !important;
+    gap: 2em;
+    margin-top: 0;
+    width: auto;
+  }
+  .icon-sidebar-bottom {
+    margin-bottom: 0;
+    flex-direction: row !important;
+    gap: 0.5em;
+  }
+  .main-content {
+    margin-left: 0 !important;
+    padding: 2.2em 3vw 1.2em 3vw;
+  }
+}
+@media (max-width: 700px) {
+  .icon-sidebar {
+    width: 58px;
+    min-width: 58px;
+    max-width: 58px;
+    height: 100vh;
+    flex-direction: column !important;
+    border-bottom: none;
+    border-right: 1.5px solid #e2e7ee;
+    box-shadow: 2px 0 15px rgba(50,60,100,0.03);
+    padding: 0;
+  }
+  .icon-sidebar-nav {
+    flex-direction: column !important;
+    gap: 13px;
+    margin-top: 24px;
+    width: 100%;
+  }
+  .icon-sidebar-bottom {
+    flex-direction: column !important;
+    gap: 6px;
+    margin-bottom: 26px;
+    width: 100%;
+  }
+  .sidebar-btn { width: 39px; height: 39px; font-size: 1.25em; }
+  .theme-btn { width: 39px; height: 39px; font-size: 1.1em; }
+  .main-content { margin-left: 58px !important; }
+  .kanban-preview { gap: 0.75em; padding: 1.1em 0.2em; }
+  .kanban-col { min-width: 105px; font-size: 0.98em; padding: 0.54em 0.29em; }
+  th, td { font-size: 0.95em; padding: 0.34em 0.4em; }
+  .table-block { padding: 0.31em 0.2em 0.5em 0.2em; }
+}
+@media (max-width: 600px) {
+  .main-content {
+    padding: 0.7em 1vw 0.5em 1vw;
+  }
+  .profile-block {
+    padding: 1em 0.5em;
+  }
+}

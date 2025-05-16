@@ -1,0 +1,503 @@
+:root {
+  --main-bg: #f4f6fb;
+  --container-bg: #fff;
+  --border-col: #e3e8fa;
+  --text-main: #22273a;
+  --text-light: #757893;
+  --kanban-card-bg: #fff;
+  --kanban-card-hover: #f4f7fd;
+  --kanban-card-shadow: #e3e8fa36;
+  --btn-bg: #e6e8fa;
+  --btn-txt: #234;
+  --btn-primary-bg: linear-gradient(99deg, #3f7dfa 75%, #a1c7fd);
+  --btn-danger-bg: #ee5d58;
+  --btn-danger-hover: #dd3132;
+  --btn-secondary-bg: #eaf3ff;
+  --modal-bg: #fff;
+  --modal-shadow: 0 8px 36px 0 #40279223, 0 2px 8px 0 #2022241c;
+  --input-focus: #4787fa;
+  --input-bg: #fff;
+  --input-border: #e3e8fa;
+  --link: #3777ee;
+  --link-hover: #284e91;
+  --accent-blue: #3f7dfa;
+  --accent-blue-light: #a1c7fd;
+  --accent-red: #ee5d58;
+  --accent-green: #3fdab7;
+  --accent-yellow: #ffd95c;
+  --transition-speed: .28s;
+}
+
+.dark-theme {
+  --main-bg: #181c22;
+  --container-bg: #23273a;
+  --border-col: #303852;
+  --text-main: #dde4f0;
+  --text-light: #8f99be;
+  --kanban-card-bg: #222838;
+  --kanban-card-hover: #222940;
+  --kanban-card-shadow: #0d2d58cc;
+  --btn-bg: #253247;
+  --btn-txt: #dde4f0;
+  --btn-primary-bg: linear-gradient(101deg,#2464c7 60%, #193051 100%);
+  --btn-danger-bg: #bb3934;
+  --btn-danger-hover: #ee5d58;
+  --btn-secondary-bg: #25273c;
+  --modal-bg: #262938;
+  --modal-shadow: 0 8px 36px 0 #06102454, 0 2px 8px 0 #0b101629;
+  --input-focus: #59a7fd;
+  --input-bg: #25283c;
+  --input-border: #343c55;
+  --link: #7bb0ff;
+  --link-hover: #5294ec;
+  --accent-blue: #3f7dfa;
+  --accent-blue-light: #a1c7fd;
+  --accent-red: #ee5d58;
+  --accent-green: #3fdab7;
+  --accent-yellow: #ffd95c;
+  --transition-speed: .28s;
+}
+
+html, body, .main-content, .auth-theme,
+.input-field, .btn, .modal-window, .modal-overlay, .input-group, .kanban-card, .kanban-col,
+.kanban-card-row, .kanban-subtasks, .modal-header, .table-block table, .auth-card {
+  transition: background var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
+}
+
+body, .main-content {
+  background: var(--main-bg) !important;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  color: var(--text-main);
+}
+
+/* ================== AUTH & FORM STYLES ================== */
+
+/* --- Новый современный стиль логин/регистрация --- */
+body.auth-theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eaf5ff 0%, #f1f7fe 80%);
+  font-family: 'Roboto', Arial, sans-serif;
+}
+.auth-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+.auth-card {
+  min-width: 340px;
+  max-width: 380px;
+  width: 92vw;
+  margin: 0 auto;
+  padding: 2.4em 2em 2em 2em;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 8px 36px rgba(51,123,181,0.16), 0 1.5px 5px rgba(0,50,80,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4em;
+  width: 100%;
+}
+.auth-title {
+  text-align: center;
+  font-size: 1.52em;
+  font-weight: 700;
+  color: var(--primary, #1976d2);
+  margin-bottom: 1.4em;
+}
+.input-group {
+  width: 100%;
+  margin-bottom: 1.17em;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 0;
+}
+.input-label {
+  font-size: 1em;
+  margin-bottom: 0.36em;
+  color: #284c70;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.input-field {
+  width: 100%;
+  padding: 0.64em 1em;
+  border: 1.6px solid #c8dcfa;
+  border-radius: 11px;
+  transition: border 0.17s, box-shadow 0.15s;
+  font-size: 1.02em;
+  background: #f5faff;
+  color: #183042;
+  outline: none;
+  box-sizing: border-box;
+}
+.input-field:focus {
+  border-color: var(--primary, #297cf7);
+  box-shadow: 0 0 0 2px rgba(40,130,255,0.19);
+  background: #f0f7ff;
+}
+.input-hint {
+  color: #97b7e7;
+  font-size: 0.93em;
+  margin-top: 0.14em;
+  margin-left: 2px;
+  letter-spacing: 0.01em;
+}
+.auth-actions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 0.6em;
+  gap: 0.52em;
+}
+.btn.primary {
+  background: linear-gradient(98deg, #4a90e2 40%, #326adf 100%);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  font-size: 1.13em;
+  border-radius: 12px;
+  padding: 0.63em 0;
+  box-shadow: 0 2px 7px rgba(46,90,200,0.12);
+  transition: box-shadow 0.15s, background 0.15s;
+  outline: none;
+  cursor: pointer;
+}
+.btn.primary:focus, .btn.primary:hover {
+  background: linear-gradient(98deg, #1976d2 50%, #3c5bbd 100%);
+  box-shadow: 0 3px 14px rgba(79, 135, 209, 0.19);
+}
+.link {
+  color: var(--primary, #2f7ded);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  font-size: 1em;
+  font-weight: 500;
+  margin-right: 1.13em;
+  cursor: pointer;
+  transition: color 0.13s;
+}
+.link:hover, .link:focus { color: #163c87; }
+.auth-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.9em;
+  margin-top: 1em;
+}
+
+/* Адаптив */
+@media (max-width: 500px) {
+  .auth-card { padding: 1.3em 0.5em 1em 0.5em; }
+  .auth-title { font-size: 1.05em; }
+  .input-label { font-size: 0.98em; }
+}
+
+/* Тёмная тема логин/регистрация */
+body.auth-theme.dark-theme {
+  background: linear-gradient(120deg, #212b36 0%, #1c2839 100%);
+}
+body.auth-theme.dark-theme .auth-card {
+  background: #253142;
+  box-shadow: 0 8px 32px rgba(20,34,74,0.51), 0 1.5px 5px rgba(32,60,110,0.09);
+}
+body.auth-theme.dark-theme .auth-title,
+body.auth-theme.dark-theme .input-label {
+  color: #e1efff;
+}
+body.auth-theme.dark-theme .input-field {
+  background: #1c2839;
+  color: #b7dafb;
+  border-color: #313f56;
+}
+body.auth-theme.dark-theme .input-field:focus {
+  background: #223049;
+  border-color: #2980f4;
+}
+body.auth-theme.dark-theme .input-hint { color: #80b7f5; }
+body.auth-theme.dark-theme .btn.primary { background: linear-gradient(99deg, #2679ef 40%, #204fb2 100%); color: #fff; }
+body.auth-theme.dark-theme .btn.primary:hover { background: linear-gradient(99deg,#115fcc 20%,#164285 100%); }
+body.auth-theme.dark-theme .link { color: #6db0fa; }
+body.auth-theme.dark-theme .link:hover { color: #fff; }
+
+/* ========== Остальные стили (Kanban, таблицы, модалки и т.д.) ========== */
+
+.projects .table-block table, .employees .table-block table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--container-bg);
+  border-radius: 14px;
+  box-shadow: 0 2px 18px 0 #0d223714, 0 1.5px 8px 0 #bdbdbd26;
+  overflow: hidden;
+  font-size: 1.04rem;
+  color: var(--text-main);
+  transition: background var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+}
+.projects .table-block th, .employees .table-block th {
+  background: var(--kanban-card-hover);
+  color: var(--text-main);
+  font-weight: 600;
+  padding: 1.05em .9em;
+  border-bottom: 1.5px solid var(--border-col);
+}
+.projects .table-block td, .employees .table-block td {
+  padding: .75em .85em;
+  border-bottom: 1px solid var(--border-col);
+}
+.projects .table-block tr:last-child td {
+  border-bottom: none;
+}
+.projects .table-block tr:hover {
+  background: var(--kanban-card-hover);
+  transition: background var(--transition-speed);
+}
+
+/* --- Кнопки --- */
+.btn {
+  padding: 0.77em 1.3em;
+  border-radius: 9px;
+  border: none;
+  background: var(--btn-bg);
+  color: var(--btn-txt);
+  font-size: 1em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #050f2215;
+  cursor: pointer;
+  transition: background var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+  margin: 0;
+}
+.btn.danger {
+  background: var(--btn-danger-bg);
+  color: #fff;
+  font-weight: 500;
+}
+.btn.danger:hover, .btn.danger:focus {
+  background: var(--btn-danger-hover);
+  color: #fff;
+}
+.btn.mini {
+  font-size: .99em;
+  padding: 0.44em 1.07em;
+  margin-left: 4px;
+  margin-right: 2px;
+  box-shadow: none;
+}
+.edit-project-btn {
+  background: var(--btn-secondary-bg);
+  color: var(--accent-blue);
+  font-size: 1.08em;
+  border: 1px solid var(--accent-blue-light);
+  transition: background var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+}
+.edit-project-btn:hover {
+  background: var(--kanban-card-hover);
+}
+.delete-project-btn {
+  color: var(--accent-red);
+  background: red;
+  border: 1px solid #ffd5d8;
+  margin-left: 3px;
+  font-size: 1.07em;
+  transition: background var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+}
+.delete-project-btn:hover {
+  background: #ffdee5;
+  color: #a40e21;
+}
+
+/* --- Современный вид модальных окон --- */
+.modal-overlay {
+  position: fixed;
+  z-index: 999;
+  right: 0; left: 0; top: 0; bottom: 0;
+  background: rgba(35,48,69,.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--transition-speed);
+}
+.modal-window {
+  background: var(--modal-bg);
+  box-shadow: var(--modal-shadow);
+  border-radius: 16px;
+  min-width: 330px;
+  max-width: 95vw;
+  width: 400px;
+  padding: 0 2em 1.3em 2em;
+  animation: modalIn 0.22s cubic-bezier(.43,.58,.51,1.11);
+  color: var(--text-main);
+  transition: background var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+}
+@keyframes modalIn {
+  from { opacity:0; transform:scale(.97) translateY(20px); }
+  to   { opacity:1; transform:scale(1)   translateY(0); }
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-col);
+  margin-bottom: 1em;
+  padding-top: 1.2em;
+  transition: border-color var(--transition-speed);
+}
+.modal-icon {
+  font-size: 1.52em;
+  margin-right: 1em;
+}
+.modal-title {
+  font-size: 1.19em;
+  font-weight: 600;
+  color: var(--text-main);
+}
+.input-group label {
+  display: block;
+  font-size: 1.05em;
+  color: var(--text-main);
+  margin-bottom: .28em;
+  font-weight: 500;
+}
+.input-group input[type="text"], .input-group textarea, .input-group select {
+  width: 100%;
+  border-radius: 8px;
+  border: 1.2px solid var(--input-border);
+  padding: .56em;
+  font-size: 1.01em;
+  transition: border var(--transition-speed), background var(--transition-speed), color var(--transition-speed);
+  background: var(--input-bg);
+  color: var(--text-main);
+}
+.input-group input[type="text"]:focus, .input-group textarea:focus, .input-group select:focus {
+  border-color: var(--input-focus);
+  outline: none;
+  background: var(--kanban-card-hover);
+}
+.input-group textarea {
+  resize: vertical;
+  min-height: 40px;
+  max-height: 160px;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.6em;
+}
+
+/* Общий фон и внешний вид */
+.section {
+  margin-bottom: 2.2em;
+  padding: 1.4em 2.5vw 1.5em 1.1vw;
+  background: var(--container-bg);
+  border-radius: 18px;
+  box-shadow: 0 0px 16px #dae3eb3a, 0 1.5px 6px #dbe4eb24;
+  transition: background var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+h2 {
+  margin-top: 0.08em;
+  font-size: 1.33em;
+  color: var(--accent-blue);
+  letter-spacing: 0.01em;
+  font-weight: 700;
+  transition: color var(--transition-speed);
+}
+
+/* Kanban columns */
+.kanban-board {
+  display: flex;
+  gap: 1.2em;
+}
+.kanban-col {
+  background: var(--kanban-card-hover);
+  border-radius: 15px;
+  box-shadow: 0 2px 10px #b2cdf826;
+  padding: 1em 1em 1.1em 1em;
+  flex: 1 1 0;
+  min-width: 200px;
+  transition: box-shadow var(--transition-speed), background var(--transition-speed);
+}
+.kanban-col:hover {
+  box-shadow: 0 2px 14px #3464ec24, 0 1.5px 8px #bdbdbd18;
+}
+.kanban-col-title {
+  font-size: 1.12em;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin-bottom: .74em;
+  transition: color var(--transition-speed);
+}
+.kanban-cards { min-height: 32px; }
+
+/* --- Kanban card Animations --- */
+.kanban-card {
+  transition: box-shadow var(--transition-speed), background var(--transition-speed), transform 0.21s, opacity 0.13s, color var(--transition-speed);
+  box-shadow: 0 1px 7px var(--kanban-card-shadow);
+  position: relative;
+  background: var(--kanban-card-bg);
+  cursor: grab;
+  color: var(--text-main);
+}
+.kanban-card.kanban-fade-in {
+  animation: kanbanFadeIn 0.33s cubic-bezier(.62,1.54,.5,1.01);
+}
+@keyframes kanbanFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+.kanban-card.kanban-fade-out {
+  animation: kanbanFadeOut 0.29s cubic-bezier(.6,.1,.88,.92) forwards;
+}
+@keyframes kanbanFadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(.97); height: 0; margin: 0; padding: 0; }
+}
+.kanban-card:hover {
+  background: var(--kanban-card-hover);
+  box-shadow: 0 4px 16px -4px #2685eb25;
+  z-index: 3;
+  transform: translateY(-2px) scale(1.016);
+}
+.kanban-card:active {
+  box-shadow: 0 4px 26px 0 #2685eb30;
+  transform: scale(.985);
+}
+.kanban-card.dragging {
+  opacity: 0.35 !important;
+  transform: scale(0.99) rotate(-1deg);
+  box-shadow: 0 10px 30px #a8b8f344, 0 2px 7px #5158791c;
+  z-index: 11;
+  cursor: grabbing !important;
+}
+.kanban-cards.drop-hover {
+  background: #c8deff44 !important;
+  transition: background var(--transition-speed);
+  border-radius: 10px;
+  outline: 2.5px dashed #296ddc;
+}
+.kanban-empty {
+  opacity: 0;
+  animation: kanbanFadeIn .6s .05s cubic-bezier(.52,2.1,.35,1) 1 forwards;
+  color: var(--text-light) !important;
+}
+
+/* Адаптивность */
+@media (max-width: 900px) {
+  .kanban-board { flex-direction: column; gap:1.5em; }
+}
+@media (max-width: 620px) {
+  .main-content, body { padding: 2vw 0.7vw; }
+  .section { padding: 1em 0.7vw; }
+  .modal-window { min-width:95vw; padding: 0 0.5em 1.1em 0.5em; }
+  .projects .table-block table, .employees .table-block table { font-size: .88em; }
+}
