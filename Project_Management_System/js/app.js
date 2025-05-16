@@ -259,20 +259,20 @@ function origRenderTasks() {
                   low: '#2ecc71'
                 }[t.priority] || '#b0b6c5';
                 card.innerHTML = `
-                  <div class="kanban-card-row" style="display:flex;align-items:center;gap:0.7em;">
-                    <span class="status-dot" title="${getStatusTitle(t.status)}" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${statusColor};box-shadow:0 0 0 1.5px #b0b6c5;vertical-align:-2px;"></span>
-                    <span class="card-title" style="flex:1 1 auto;">${t.name}</span>
-                    ${t.priority ? `<span class="mini-indicator" title="Приоритет" style="color:${priorityColor};font-weight:bold;font-size:.98em;">${t.priority[0].toUpperCase()}</span>` : ''}
-                    ${t.assignee ? `<span class="mini-indicator" title="Исполнитель" style="color:#497;font-size:.98em;">👤 ${t.assignee}</span>` : ''}
-                    ${t.date ? `<span class="mini-indicator" title="Дата"><span style='color:#888;font-size:1em;'>🗓</span> <span style='font-size:91%;color:#497;'>${t.date}</span></span>` : ''}
-                  </div>
-                  <div class="card-desc" style="margin-bottom:6px">${t.desc ? t.desc : ''}</div>
-                  ${(t.subtasks && t.subtasks.length) ? `<ul class='kanban-subtasks' style='margin:4px 0 6px 0;padding-left:0;list-style:none;'>`+
-                    t.subtasks.map(st=>`<li style='display:flex;align-items:center;gap:6px;font-size:.98em;'><input type='checkbox' ${st.done?'checked':''} disabled style='margin:0 4px 0 0;'> <span style='${st.done?'text-decoration:line-through;color:#aaa;':''}'>${st.text}</span></li>`).join('')
-                  +'</ul>' : ''}
-                  <div class="card-actions">
-                    <button class="btn mini edit-task-btn" data-id="${t.id}" title="Редактировать">✎</button>
-                    <button class="btn mini danger delete-task-btn" data-id="${t.id}" title="Удалить">🗑</button>
+                  <div class="kanban-card-column">
+                    <div class="status-dot-wrapper"><span class="status-dot" title="${getStatusTitle(t.status)}" style="background:${statusColor};"></span></div>
+                    <div class="card-title">${t.name}</div>
+                    ${t.priority ? `<div class="mini-indicator" title="Приоритет" style="color:${priorityColor};font-weight:bold;">Приоритет: ${t.priority[0].toUpperCase()}</div>` : ''}
+                    ${t.assignee ? `<div class="mini-indicator" title="Исполнитель" style="color:#497;">👤 ${t.assignee}</div>` : ''}
+                    ${t.date ? `<div class="mini-indicator" title="Дата"><span style='color:#888;'>🗓</span> <span style='color:#497;'>${t.date}</span></div>` : ''}
+                    ${t.desc ? `<div class="card-desc">${t.desc}</div>` : ''}
+                    ${(t.subtasks && t.subtasks.length) ? `<ul class='kanban-subtasks'>`+
+                      t.subtasks.map(st=>`<li><input type='checkbox' ${st.done?'checked':''} disabled> <span style='${st.done?'text-decoration:line-through;color:#aaa;':''}'>${st.text}</span></li>`).join('')
+                    +'</ul>' : ''}
+                    <div class="card-actions">
+                      <button class="btn mini edit-task-btn" data-id="${t.id}" title="Редактировать">✎</button>
+                      <button class="btn mini danger delete-task-btn" data-id="${t.id}" title="Удалить">🗑</button>
+                    </div>
                   </div>
                 `;
                 col.appendChild(card);
@@ -369,6 +369,16 @@ window.openTaskModal = function(mode, taskId) {
     setTimeout(() => { form['task-name'].focus(); }, 180);
 }
 
+// --- Явное закрытие модалки задачи ---
+window.closeTaskModal = function() {
+  const modal = document.getElementById('modal-task');
+  if(modal) {
+    modal.style.display = 'none';
+    // По желанию делать очистку/сброс внутренних переменных, напр.:
+    // editTaskId = null; taskSubtasks = [];
+  }
+};
+
 // --- Рендер подзадач в модалке задачи ---
 function renderSubtasksUI() {
     const ul = document.getElementById('subtasks-list');
@@ -447,6 +457,40 @@ function hideModal() {
             btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
         }
     }
+}
+
+function setUpSectionHandlers(section) {
+  if (section === 'tasks') {
+    // Кнопка создания задачи
+    const addTaskBtn = document.getElementById('add-task-btn');
+    if (addTaskBtn) addTaskBtn.onclick = function(){ window.openTaskModal('create'); };
+    // карточки: редактирование/удаление — если есть другие динамические кнопки, навесьте тут тоже
+    if (typeof setUpKanbanButtons === 'function') setUpKanbanButtons();
+  }
+  if (section === 'projects') {
+    // Делегирование на tbody для edit/delete
+    const tbody = document.querySelector('.projects .table-block tbody');
+    if (tbody) {
+      tbody.onclick = e => {
+        let btn = e.target.closest('button');
+        if (!btn) return;
+        const id = +btn.dataset.id;
+        if (btn.classList.contains('edit-project-btn')) {
+          window.openProjectModal('edit', id);
+        }
+        if (btn.classList.contains('delete-project-btn')) {
+          showModal('warning', 'Удаление проекта', 'Удалить проект безвозвратно?', function() {
+            projects = projects.filter(p => p.id !== id);
+            renderProjects();
+            showModal('success', 'Готово', 'Проект удалён!');
+          });
+        }
+      };
+    }
+    // Кнопка создания проекта
+    const createBtn = document.querySelector('.projects .btn.primary');
+    if (createBtn) createBtn.onclick = () => window.openProjectModal('create');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -557,6 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </section>
       `;
     }
+    setUpSectionHandlers(section);
   }
   navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -877,5 +922,86 @@ document.addEventListener('DOMContentLoaded', function() {
   @keyframes kanbanFadeOut {
     from { opacity: 1; transform: none;}
     to   { opacity: 0; transform: translateY(16px) scale(.97);}
+  }
+
+  // Для структурированной карточки Kanban:
+  .kanban-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+    margin-bottom: 1.1em;
+    padding: 1.1em 1.1em 0.7em 1.1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+    border-left: 4px solid #e0e4f0;
+    transition: box-shadow .18s;
+  }
+  .kanban-card-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  .status-dot-wrapper {
+    margin-bottom: 0.1em;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5px #b0b6c5;
+    vertical-align: -2px;
+    margin-right: 0.2em;
+  }
+  .card-title {
+    font-weight: 600;
+    font-size: 1.08em;
+    color: #2a2d3a;
+    margin-right: 0.5em;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.1em;
+  }
+  .card-desc {
+    color: #5a5a6a;
+    font-size: 0.99em;
+    margin-bottom: 0.3em;
+    margin-top: 0.1em;
+    line-height: 1.5;
+    padding-left: 1.2em;
+    border-left: 2px solid #e8eaf0;
+    background: #f8fafd;
+    border-radius: 0 6px 6px 0;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+  }
+  .kanban-subtasks {
+    margin: 0.2em 0 0.5em 0;
+    padding-left: 1.2em;
+    list-style: none;
+  }
+  .kanban-subtasks li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.98em;
+    margin-bottom: 0.1em;
+  }
+  .card-actions {
+    display: flex;
+    gap: 0.5em;
+    justify-content: flex-end;
+    margin-top: 0.2em;
+    border-top: 1px solid #f0f2f7;
+    padding-top: 0.5em;
+  }
+  .mini-indicator {
+    font-size: 0.98em;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2em;
   }
 */

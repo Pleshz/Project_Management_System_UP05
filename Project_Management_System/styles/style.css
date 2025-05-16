@@ -4,7 +4,7 @@
   --border-col: #e3e8fa;
   --text-main: #22273a;
   --text-light: #757893;
-  --kanban-card-bg: #fff;
+  --kanban-card-bg: #f8faff;
   --kanban-card-hover: #f4f7fd;
   --kanban-card-shadow: #e3e8fa36;
   --btn-bg: #e6e8fa;
@@ -34,7 +34,7 @@
   --border-col: #303852;
   --text-main: #dde4f0;
   --text-light: #8f99be;
-  --kanban-card-bg: #222838;
+  --kanban-card-bg: #232a3a;
   --kanban-card-hover: #222940;
   --kanban-card-shadow: #0d2d58cc;
   --btn-bg: #253247;
@@ -439,15 +439,26 @@ h2 {
 }
 .kanban-cards { min-height: 32px; }
 
-/* --- Kanban card Animations --- */
+/* --- Kanban card Improved Styles --- */
 .kanban-card {
-  transition: box-shadow var(--transition-speed), background var(--transition-speed), transform 0.21s, opacity 0.13s, color var(--transition-speed);
-  box-shadow: 0 1px 7px var(--kanban-card-shadow);
-  position: relative;
+  min-width: 270px;
+  max-width: 390px;
+  min-height: 116px;
+  margin: 0 0 22px 0;
+  padding: 1.08em 1.2em 1.1em 1.2em;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  box-shadow: 0 4px 19px -6px var(--kanban-card-shadow), 0 1.5px 5px #8baee913;
   background: var(--kanban-card-bg);
-  cursor: grab;
+  position: relative;
   color: var(--text-main);
+  border: 1.2px solid var(--border-col);
+  transition: box-shadow var(--transition-speed), background var(--transition-speed), transform 0.21s, opacity 0.13s, color var(--transition-speed), border-color var(--transition-speed);
+  cursor: grab;
 }
+
 .kanban-card.kanban-fade-in {
   animation: kanbanFadeIn 0.33s cubic-bezier(.62,1.54,.5,1.01);
 }
@@ -464,7 +475,7 @@ h2 {
 }
 .kanban-card:hover {
   background: var(--kanban-card-hover);
-  box-shadow: 0 4px 16px -4px #2685eb25;
+  box-shadow: 0 4px 24px -4px #2685eb25, 0 1.5px 8px #bdbdbd18;
   z-index: 3;
   transform: translateY(-2px) scale(1.016);
 }
@@ -491,6 +502,54 @@ h2 {
   color: var(--text-light) !important;
 }
 
+/* --- Card content structure --- */
+.kanban-card-row {
+  margin-bottom: 4px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border-col);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.05em;
+}
+
+.card-title {
+  font-size: 1.16em;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.card-desc {
+  font-size: 0.99em;
+  line-height: 1.48;
+  color: var(--text-light);
+  margin-bottom: 0.6em;
+  margin-top: 0.15em;
+  word-break: break-word;
+}
+
+.kanban-subtasks {
+  margin-bottom: 0.5em;
+  margin-top: -3px;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.53em;
+  margin-top: 2px;
+}
+
+.status-dot {
+  min-width: 14px;
+  min-height: 14px;
+  border: 2px solid var(--border-col);
+  box-sizing: border-box;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5em;
+  margin-top: 2px;
+}
+
 /* Адаптивность */
 @media (max-width: 900px) {
   .kanban-board { flex-direction: column; gap:1.5em; }
@@ -500,4 +559,128 @@ h2 {
   .section { padding: 1em 0.7vw; }
   .modal-window { min-width:95vw; padding: 0 0.5em 1.1em 0.5em; }
   .projects .table-block table, .employees .table-block table { font-size: .88em; }
+  .kanban-card {
+    min-width: 98vw;
+    max-width: 100vw;
+    padding: 0.8em 0.5em 0.9em 0.5em;
+  }
+}
+
+/* ====== АДАПТИВ ========== */
+@media (max-width: 1100px) {
+  .kanban-board {
+    gap: 1.5vw;
+  }
+  .kanban-card {
+    min-width: 220px;
+    max-width: 96vw;
+    font-size: 1em;
+    padding: 0.9em 0.8em 0.85em 0.8em;
+  }
+}
+
+@media (max-width: 890px) {
+  .sidebar {
+    width: 64px;
+    min-width: 48px;
+    padding: 0.3em 0.05em;
+  }
+  .kanban-board {
+    gap: 0.7vw;
+  }
+  .kanban-col-title {
+    font-size: 1.08em;
+    padding: 0.55em 0.2em 0.32em 0.2em;
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+  .kanban-board {
+    flex-direction: row;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6vw;
+  }
+  .kanban-col {
+    min-width: 82vw;
+    max-width: 98vw;
+    padding: 0 3vw;
+  }
+  .kanban-card {
+    min-width: 92vw;
+    max-width: 96vw;
+    font-size: 1.1em;
+    padding: 0.95em 0.6em 0.9em 0.6em;
+  }
+}
+
+@media (max-width: 500px) {
+  .kanban-col {
+    min-width: 98vw;
+    max-width: 100vw;
+    padding: 0 1vw;
+  }
+  .kanban-card {
+    min-width: 97vw;
+    max-width: 99vw;
+    font-size: 1.13em;
+    padding: 0.92em 0.29em 0.95em 0.29em;
+  }
+  .card-title{
+    font-size: 1.18em;
+  }
+  .kanban-subtasks, .card-actions{
+    padding-left: 0.18em;
+  }
+}
+
+@media (max-width: 400px){
+  .kanban-card {
+    font-size: 1.19em;
+    min-width: 99vw;
+    padding: 0.7em 0.10em 0.85em 0.13em;
+  }
+  .kanban-col {
+    min-width: 100vw;
+    max-width: 100vw;
+    padding: 0 0.5vw;
+  }
+}
+
+/* Форма и кнопки */
+@media (max-width: 600px) {
+  .input-group, .auth-actions, .auth-form{
+    width: 97vw !important;
+    min-width: 0;
+    max-width: 100vw;
+    padding: 0;
+  }
+  .input-field, .btn{
+    font-size: 1.09em !important;
+    padding: 0.56em 0.7em !important;
+  }
+}
+
+/* Таблица */
+@media (max-width:600px) {
+  .table-block table {
+    font-size: 0.97em;
+    min-width: 700px;
+  }
+  .table-block {
+    overflow-x: auto;
+  }
+}
+
+/* Общие правки */
+@media (max-width:420px){
+  .card-title, .mini-indicator{font-size:1.07em;}
+  .kanban-card{border-radius:13px;}
 }
