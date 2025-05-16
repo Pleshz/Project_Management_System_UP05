@@ -1,5 +1,3 @@
-/* Новый sidebar — только вертикальные круглые/скруглённые кнопки-иконки без текста */
-/* Строго вертикальный sidebar на desktop/large экранах */
 ul{
   margin: 0px;
   padding: 0px;
@@ -91,7 +89,6 @@ ul{
 .theme-icon {
   transition: color 0.15s, transform 0.2s;
 }
-/* Основной контент теперь всегда сдвинут вправо! */
 .main-content {
   margin-left: 72px !important;
   flex: 1;
@@ -135,11 +132,9 @@ ul{
   background: #ff431f;
 }
 
-/* Показ/скрытие секций */
 .section { display: none; }
 .section.active { display: block; }
 
-/* Таблицы */
 .table-block {
   background: #fff;
   border-radius: var(--border-radius);
@@ -169,7 +164,6 @@ td {
   color: #222;
 }
 
-/* Kanban доска */
 .kanban-preview {
   display: flex;
   flex-direction: row;
@@ -207,22 +201,6 @@ td {
   color: #50683f;
 }
 
-/* Тёмная тема для sidebar */
-.dark-theme .icon-sidebar {
-  background: #243249;
-  border-right: 1.5px solid #283042;
-}
-.dark-theme .sidebar-btn { color: #aed0ff; background: none; }
-.dark-theme .sidebar-btn:focus,
-.dark-theme .sidebar-btn:hover { background: #2a4572; color: #fff; }
-.dark-theme .sidebar-btn.active { background: linear-gradient(130deg,#295591 80%,#235397 100%); color: #fff; }
-.dark-theme .theme-btn { background: #242c3a; color: #8ed3ff; }
-.dark-theme .theme-btn:focus,
-.dark-theme .theme-btn:hover { background: #1761dc; color: #fff; }
-
-/* Остальные стили для основного контента, kanban и т.д. остаются */
-
-/* Адаптивность sidebar и основного контента */
 @media (max-width: 900px) {
   .icon-sidebar {
     flex-direction: row !important;

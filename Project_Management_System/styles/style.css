@@ -28,35 +28,7 @@
   --transition-speed: .28s;
 }
 
-.dark-theme {
-  --main-bg: #181c22;
-  --container-bg: #23273a;
-  --border-col: #303852;
-  --text-main: #dde4f0;
-  --text-light: #8f99be;
-  --kanban-card-bg: #232a3a;
-  --kanban-card-hover: #222940;
-  --kanban-card-shadow: #0d2d58cc;
-  --btn-bg: #253247;
-  --btn-txt: #dde4f0;
-  --btn-primary-bg: linear-gradient(101deg,#2464c7 60%, #193051 100%);
-  --btn-danger-bg: #bb3934;
-  --btn-danger-hover: #ee5d58;
-  --btn-secondary-bg: #25273c;
-  --modal-bg: #262938;
-  --modal-shadow: 0 8px 36px 0 #06102454, 0 2px 8px 0 #0b101629;
-  --input-focus: #59a7fd;
-  --input-bg: #25283c;
-  --input-border: #343c55;
-  --link: #7bb0ff;
-  --link-hover: #5294ec;
-  --accent-blue: #3f7dfa;
-  --accent-blue-light: #a1c7fd;
-  --accent-red: #ee5d58;
-  --accent-green: #3fdab7;
-  --accent-yellow: #ffd95c;
-  --transition-speed: .28s;
-}
+
 
 html, body, .main-content, .auth-theme,
 .input-field, .btn, .modal-window, .modal-overlay, .input-group, .kanban-card, .kanban-col,
@@ -70,9 +42,6 @@ body, .main-content {
   color: var(--text-main);
 }
 
-/* ================== AUTH & FORM STYLES ================== */
-
-/* --- Новый современный стиль логин/регистрация --- */
 body.auth-theme {
   display: flex;
   align-items: center;
@@ -197,14 +166,12 @@ body.auth-theme {
   margin-top: 1em;
 }
 
-/* Адаптив */
 @media (max-width: 500px) {
   .auth-card { padding: 1.3em 0.5em 1em 0.5em; }
   .auth-title { font-size: 1.05em; }
   .input-label { font-size: 0.98em; }
 }
 
-/* Тёмная тема логин/регистрация */
 body.auth-theme.dark-theme {
   background: linear-gradient(120deg, #212b36 0%, #1c2839 100%);
 }
@@ -231,7 +198,6 @@ body.auth-theme.dark-theme .btn.primary:hover { background: linear-gradient(99de
 body.auth-theme.dark-theme .link { color: #6db0fa; }
 body.auth-theme.dark-theme .link:hover { color: #fff; }
 
-/* ========== Остальные стили (Kanban, таблицы, модалки и т.д.) ========== */
 
 .projects .table-block table, .employees .table-block table {
   width: 100%;
@@ -264,7 +230,6 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   transition: background var(--transition-speed);
 }
 
-/* --- Кнопки --- */
 .btn {
   padding: 0.77em 1.3em;
   border-radius: 9px;
@@ -317,7 +282,6 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   color: #a40e21;
 }
 
-/* --- Современный вид модальных окон --- */
 .modal-overlay {
   position: fixed;
   z-index: 999;
@@ -394,7 +358,6 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   margin-top: 0.6em;
 }
 
-/* Общий фон и внешний вид */
 .section {
   margin-bottom: 2.2em;
   padding: 1.4em 2.5vw 1.5em 1.1vw;
@@ -413,7 +376,6 @@ h2 {
   transition: color var(--transition-speed);
 }
 
-/* Kanban columns */
 .kanban-board {
   display: flex;
   gap: 1.2em;
@@ -439,7 +401,6 @@ h2 {
 }
 .kanban-cards { min-height: 32px; }
 
-/* --- Kanban card Improved Styles --- */
 .kanban-card {
   min-width: 270px;
   max-width: 390px;
@@ -502,7 +463,6 @@ h2 {
   color: var(--text-light) !important;
 }
 
-/* --- Card content structure --- */
 .kanban-card-row {
   margin-bottom: 4px;
   padding-bottom: 2px;
@@ -550,7 +510,6 @@ h2 {
   margin-top: 2px;
 }
 
-/* Адаптивность */
 @media (max-width: 900px) {
   .kanban-board { flex-direction: column; gap:1.5em; }
 }
@@ -566,7 +525,6 @@ h2 {
   }
 }
 
-/* ====== АДАПТИВ ========== */
 @media (max-width: 1100px) {
   .kanban-board {
     gap: 1.5vw;
@@ -654,7 +612,6 @@ h2 {
   }
 }
 
-/* Форма и кнопки */
 @media (max-width: 600px) {
   .input-group, .auth-actions, .auth-form{
     width: 97vw !important;
@@ -668,7 +625,6 @@ h2 {
   }
 }
 
-/* Таблица */
 @media (max-width:600px) {
   .table-block table {
     font-size: 0.97em;
@@ -679,7 +635,6 @@ h2 {
   }
 }
 
-/* Общие правки */
 @media (max-width:420px){
   .card-title, .mini-indicator{font-size:1.07em;}
   .kanban-card{border-radius:13px;}
