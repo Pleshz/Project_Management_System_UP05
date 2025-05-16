@@ -84,7 +84,7 @@
           </select>
         </div>
         <div class="auth-actions">
-          <button type="submit" class="btn primary" aria-label="Зарегистрироваться">Зарегистрироваться</button>
+          <button type="submit" class="btn primary" onclick="showEmailVerificationModal()" aria-label="Зарегистрироваться">Зарегистрироваться</button>
         </div>
         <div class="auth-links">
           <a href="index.html" class="link">Авторизоваться</a>
@@ -92,6 +92,22 @@
       </form>
     </div>
   </div>
-  <script src="js/auth.js"></script>
+  <div id="modal-container"></div>
+<script>
+  function showEmailVerificationModal() {
+    event.preventDefault();
+    fetch('email-verification.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('modal-container').innerHTML = html;
+        const closeBtn = document.querySelector('#modal-container .modal-close-btn');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function() {
+            document.getElementById('modal-container').innerHTML = '';
+          });
+        }
+      });
+  }
+</script>
 </body>
 </html>
