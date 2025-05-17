@@ -24,7 +24,7 @@
                     language: Language::from(value: $row['language'])
                 );
             }
-            Connection::closeConnection(connection: $connection);
+            Connection::closeConnection( connection: $connection);
             return $allUsers;
         }
 
