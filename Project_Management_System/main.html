@@ -16,7 +16,7 @@
         <li class="sidebar-btn active" data-section="profile" aria-label="Личный кабинет" title="Личный кабинет"><span class="nav-icon">👤</span></li>
         <li class="sidebar-btn" data-section="projects" aria-label="Проекты" title="Проекты"><span class="nav-icon">📁</span></li>
         <li class="sidebar-btn" data-section="tasks" aria-label="Мои задачи" title="Мои задачи"><span class="nav-icon">📝</span></li>
-        <li class="sidebar-btn" data-section="extra" aria-label="Что-то ещё" title="Что-то ещё"><span class="nav-icon">⚡</span></li>
+        <li class="sidebar-btn" data-section="extra" aria-label="Что-то ещё" title="Что-то ещё"><span class="nav-icon">⚡⚡</span></li>
       </ul>
     </nav>
     <div class="icon-sidebar-bottom">
@@ -28,39 +28,80 @@
   </main>
 </div>
 
+<!-- Модальное окно выбора аватара -->
+<div class="modal-avatar-overlay" id="modal-avatar-overlay" style="display:none;">
+  <div class="modal-avatar">
+    <h3>Выберите аватар</h3>
+    <div class="avatar-choices">
+      <label class="avatar-choice"><input type="radio" name="avatar" checked><span class="ava-ico">👨‍💼</span></label>
+      <label class="avatar-choice"><input type="radio" name="avatar"><span class="ava-ico">👩‍💼</span></label>
+      <label class="avatar-choice"><input type="radio" name="avatar"><span class="ava-ico">🧑‍💻</span></label>
+      <label class="avatar-choice"><input type="radio" name="avatar"><span class="ava-ico">🧑‍🎨</span></label>
+    </div>
+    <div class="avatar-upload-block">
+      <label class="avatar-upload-label">Загрузить своё фото <input type="file" accept="image/*" class="avatar-upload"></label>
+    </div>
+    <div class="avatar-modal-actions">
+      <button class="btn modal-avatar-save">Сохранить</button>
+      <button class="btn modal-avatar-cancel">Отмена</button>
+    </div>
+  </div>
+</div>
 
-<div id="modal-project" class="modal-overlay" style="display:none;">
-  <div class="modal-window">
-    <form id="project-form">
-      <div class="modal-header">
-        <span class="modal-icon">📋</span>
-        <span class="modal-title" id="project-form-title">Создать проект</span>
-      </div>
-      <div class="input-group">
-        <label for="proj-name">Название проекта</label>
-        <input type="text" id="proj-name" name="proj-name" required placeholder="Введите название" />
-      </div>
-      <div class="input-group">
-        <label for="proj-desc">Описание</label>
-        <textarea id="proj-desc" name="proj-desc" placeholder="Описание проекта" rows="3"></textarea>
-      </div>
-      <div class="input-group">
-        <label for="proj-public">Тип проекта</label>
-        <select id="proj-public" name="proj-public" required>
+<!-- Overlay для блёра фона (универсальный, можно использовать для любых модалок) -->
+<div id="blur-overlay" class="blur-overlay" style="display:none;"></div>
+
+<script src="js/app.js"></script>
+<!-- Модальное окно создания проекта-->
+<div class="modal-create modal-create-project" id="modal-create-project" style="display:none;">
+  <div class="modal-window-created">
+    <h3>Создать проект</h3>
+    <form autocomplete="off">
+      <label>Название проекта
+        <input type="text" class="input-field" placeholder="Название проекта">
+      </label>
+      <label>Описание
+        <textarea class="input-field" rows="3" placeholder="Кратко опишите проект..."></textarea>
+      </label>
+      <label>Тип
+        <select class="input-field">
           <option value="">Выберите тип</option>
-          <option value="Открытый">Открытый</option>
-          <option value="Закрытый">Закрытый</option>
+          <option>Открытый</option>
+          <option>Закрытый</option>
         </select>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn mini" id="project-cancel">Отмена</button>
-        <button type="submit" class="btn primary">Сохранить</button>
+      </label>
+      <div class="modal-create-actions">
+        <button class="btn create-btn">Создать</button>
+        <button class="btn cancel-btn" onclick="this.closest('.modal-create').style.display='none';document.getElementById('blur-overlay').style.display='none';return false;">Отмена</button>
       </div>
     </form>
   </div>
 </div>
-
-<script src="js/app.js"></script>
+<!-- Модальное окно создания задачи-->
+<div class="modal-create modal-create-task" id="modal-create-task" style="display:none;">
+  <div class="modal-window-created">
+    <h3>Создать задачу</h3>
+    <form autocomplete="off">
+      <label>Название задачи
+        <input type="text" class="input-field" placeholder="Название задачи">
+      </label>
+      <label>Описание
+        <textarea class="input-field" rows="3" placeholder="Описание задачи"></textarea>
+      </label>
+      <label>Статус
+        <select class="input-field">
+          <option value="">Выберите статус</option>
+          <option>В работе</option>
+          <option>Готово</option>
+        </select>
+      </label>
+      <div class="modal-create-actions">
+        <button class="btn create-btn">Создать</button>
+        <button class="btn cancel-btn" onclick="this.closest('.modal-create').style.display='none';document.getElementById('blur-overlay').style.display='none';return false;">Отмена</button>
+      </div>
+    </form>
+  </div>
+</div>
 <script>
 (function() {
   const navBtns = document.querySelectorAll('.sidebar-nav .sidebar-btn[data-section]');
@@ -94,7 +135,12 @@
           <div class="profile-main-card profile-main-card--edit">
             <div class="profile-main profile-main--split">
               <div class="profile-main-left">
-                <div class="profile-avatar-wrap"><span class="profile-avatar">👨‍💼</span></div>
+                <div class="profile-avatar-wrap">
+                  <span class="profile-avatar">👨‍💼</span>
+                  <div class="avatar-overlay">
+                    <span class="avatar-plus">+</span>
+                  </div>
+                </div>
                 <div class="profile-main-info">
                   <div class="profile-main-username">Иван Иванов</div>
                   <div class="profile-main-email">ivan.ivanov@mail.ru</div>
@@ -119,6 +165,33 @@
           </div>
         </div>
       `;
+
+      // Добавим обработчик для открытия модального окна выбора аватара
+      setTimeout(function() {
+        const avatarWrap = appContent.querySelector('.profile-avatar-wrap');
+        const modalAvatarOverlay = document.getElementById('modal-avatar-overlay');
+        const blurOverlay = document.getElementById('blur-overlay');
+        if (avatarWrap && modalAvatarOverlay && blurOverlay) {
+          avatarWrap.addEventListener('click', function() {
+            modalAvatarOverlay.style.display = 'flex';
+            blurOverlay.style.display = 'block';
+          });
+        }
+        // Закрытие модального окна выбора аватара
+        if (modalAvatarOverlay && blurOverlay) {
+          const cancelBtn = modalAvatarOverlay.querySelector('.modal-avatar-cancel');
+          const saveBtn = modalAvatarOverlay.querySelector('.modal-avatar-save');
+          function closeModal() {
+            modalAvatarOverlay.style.display = 'none';
+            blurOverlay.style.display = 'none';
+          }
+          if (cancelBtn) cancelBtn.onclick = closeModal;
+          if (saveBtn) saveBtn.onclick = function(e) { e.preventDefault(); closeModal(); };
+          // Клик по блёру тоже закрывает
+          blurOverlay.onclick = closeModal;
+        }
+      }, 50);
+
     } else if (section === 'projects') {
       appContent.innerHTML = `
         <section class="projects section active">
@@ -130,7 +203,7 @@
               </thead>
               <tbody><!-- динамически --></tbody>
             </table>
-            <button class="btn primary" style="margin-top:1.3em;">Создать проект</button>
+            <button class="btn primary" style="margin-top:1.3em;" onclick="document.getElementById('modal-create-project').style.display='flex';document.getElementById('blur-overlay').style.display='block';">Создать проект</button>
           </div>
         </section>
       `;
@@ -142,7 +215,7 @@
             <input type="text" id="kanban-search" placeholder="Поиск задач..." class="kanban-search">
             <button class="btn search-btn" id="kanban-search-btn" title="Найти задачу"><span class="search-icon">🔍</span></button>
           </div>
-          <button class="btn primary" id="add-task-btn" style="margin-bottom:1.4em;">Создать задачу</button>
+          <button class="btn primary" id="add-task-btn" style="margin-bottom:1.4em;" onclick="document.getElementById('modal-create-task').style.display='flex';document.getElementById('blur-overlay').style.display='block';">Создать задачу</button>
           <div class="kanban-board">
             <div class="kanban-col" data-status="new">
               <div class="kanban-col-title">Новые</div>

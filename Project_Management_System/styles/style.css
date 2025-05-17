@@ -107,12 +107,25 @@ body.auth-theme {
   background: #f5faff;
   color: #183042;
   outline: none;
+  margin-bottom: 15px;
   box-sizing: border-box;
 }
 .input-field:focus {
-  border-color: var(--primary, #297cf7);
-  box-shadow: 0 0 0 2px rgba(40,130,255,0.19);
-  background: #f0f7ff;
+  box-shadow: 0 0 0 3px #a7d7ff7e, 0 2px 10px #3575ef22;
+  border-color: #539efc;
+  background: #f5fbff;
+  transition: box-shadow 0.18s, border-color 0.15s, background 0.16s;
+}
+.input-field.skeleton {
+  color: transparent !important;
+  background: linear-gradient(100deg, #eaf2fb 60%, #d3eafc 80%, #eaf2fb 100%);
+  background-size: 380% 100%;
+  animation: skeleton-shimmer 1.4s linear infinite;
+  border-color: #d6eaff;
+}
+@keyframes skeleton-shimmer {
+  0%    { background-position: 100% 0; }
+  100%  { background-position: 0 0; }
 }
 .input-hint {
   color: #97b7e7;
@@ -270,6 +283,18 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   border-top-right-radius: 19px;
   position: relative;
   z-index: 1;
+  overflow: hidden;
+}
+.profile-cover-bg::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 80% 40%, rgba(255,255,255,0.19) 0, rgba(255,255,255,0.07) 40%, transparent 80%),
+    repeating-linear-gradient(-26deg, #d4eafd22 0px, #d4eafd20 6px, transparent 23px, transparent 38px);
+  mix-blend-mode: lighten;
+  opacity: 0.78;
 }
 .profile-cover-content {
   height: calc(68vh - 52px);
@@ -293,6 +318,28 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   min-height: 165px;
   max-width: 600px;
   z-index: 2;
+}
+.profile-main-card, .profile-main-card--edit {
+  animation: fadein-slideup 0.8s cubic-bezier(.32,1.23,.44,1);
+}
+@keyframes fadein-slideup {
+  from { opacity:0; transform:translate(-50%, 24%) scale(0.94); }
+  to   { opacity:1; transform:translate(-50%, -36%) scale(1); }
+}
+.profile-main-card, .table-block, .btn, .input-field, .profile-cover-bg, .profile-cover-content, .profile-main-card--edit, .profile-edit-form .input-field {
+  border-radius: 18px !important;
+}
+.btn, .btn.edit-save, .btn.edit-delete, .btn.edit-logout {
+  border-radius: 14px !important;
+}
+.profile-main-card, .table-block {
+  transition: box-shadow 0.32s cubic-bezier(0.33,1,0.68,1), transform 0.23s cubic-bezier(0.32,1.23,0.44,1);
+}
+.profile-main-card:hover, .profile-main-card--edit:hover {
+  box-shadow: 0 8px 42px #c9d9f5a8, 0 2px 16px #b6eaff47;
+  /* ТОЛЬКО scale:
+  Сложение translate + scale в одном transform — чтобы не сдвигалось по Y */
+  transform: translate(-50%, -36%) scale(1.014);
 }
 
 /* --- EDIT MODE PROFILE CARD --- */
@@ -338,6 +385,11 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   flex-direction: column;
   gap: 0.17em;
 }
+.profile-edit-form label:not(:last-of-type) {
+  border-bottom: 1.1px solid #e5eafc;
+  padding-bottom: 0.4em;
+  margin-bottom: 0.7em;
+}
 .profile-edit-form .input-field {
   border: 1.3px solid #b1cceb;
   border-radius: 12px;
@@ -361,6 +413,9 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   gap: 1.1em;
   margin-top: 1.08em;
   justify-content: flex-end;
+  border-top: 1.4px solid #e5eafc;
+  padding-top: 0.93em;
+  margin-top: 1.02em;
 }
 .btn.edit-save {
   background: linear-gradient(99deg,#2d8bf7 60%, #99d3fd 120%);
@@ -421,6 +476,8 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   width: 100%;
   gap: 2.2em;
 }
+
+/* Оверлей с плюсиком на аватарке */
 .profile-avatar-wrap {
   flex-shrink: 0;
   display: flex;
@@ -432,11 +489,212 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   border-radius: 50%;
   box-shadow: 0 2px 16px #b8daff40;
   margin-right: 0.6em;
+  transition: box-shadow 0.24s, background 0.22s, border 0.19s;
+  position: relative;
+  cursor: pointer;
+}
+.profile-avatar-wrap:hover, .profile-avatar-wrap:focus {
+  box-shadow: 0 0 0 5px #b8d8ff70, 0 3px 20px #2187fc55;
+  background: linear-gradient(120deg, #56aaff 54%, #e5f6ff 96%);
+  animation: avatar-glow 1.2s infinite linear;
+}
+@keyframes avatar-glow {
+  0% {
+    box-shadow: 0 0 0 5px #b8d8ff70, 0 3px 20px #2187fc55;
+  }
+  50% {
+    box-shadow: 0 0 0 10px #b8d8ff40, 0 6px 32px #2187fc99;
+  }
+  100% {
+    box-shadow: 0 0 0 5px #b8d8ff70, 0 3px 20px #2187fc55;
+  }
 }
 .profile-avatar {
   font-size: 3.45em;
   display: block;
 }
+.avatar-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 32, 64, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  border-radius: 50%;
+  transition: opacity 0.22s;
+  pointer-events: none;
+  z-index: 2;
+}
+.profile-avatar-wrap:hover .avatar-overlay,
+.profile-avatar-wrap:focus .avatar-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.avatar-plus {
+  display: inline-block;
+  color: #fff;
+  font-size: 2.1em;
+  font-weight: bold;
+  line-height: 1;
+  background: rgba(20,40,88,0.66);
+  border-radius: 50%;
+  width: 1.42em;
+  height: 1.42em;
+  text-align: center;
+  box-shadow: 0 2px 7px #051d818a;
+}
+
+/* Модальное окно выбора аватара */
+.modal-avatar-overlay {
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(20,25,46,0.27);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+}
+.modal-avatar {
+  min-width: 335px;
+  max-width: 95vw;
+  background: #fcfdff;
+  border-radius: 20px;
+  box-shadow: 0 10px 70px #3e7fdc33, 0 2px 13px #8fccfb47;
+  padding: 2em 2em 1.2em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadein-popup 0.33s cubic-bezier(.45,.9,.68,1.12);
+}
+@keyframes fadein-popup {
+  from { opacity:0; transform: scale(0.93) translateY(18px); }
+  to { opacity:1; transform: scale(1) translateY(0); }
+}
+.avatar-choices {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  margin: 1.2em 0 0.9em 0;
+}
+.avatar-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.avatar-choice input[type='radio'] {
+  display: none;
+}
+.ava-ico {
+  font-size: 2.4em;
+  border-radius: 50%;
+  background: #f2f7ff;
+  padding: 0.19em 0.23em;
+  border: 2.5px solid transparent;
+  transition: border 0.19s, background 0.18s;
+  margin-bottom: 0.14em;
+}
+.avatar-choice input[type='radio']:checked + .ava-ico {
+  border-color: #3685fa;
+  background: #e3f2fd;
+}
+.avatar-upload-block {
+  margin: 0.7em 0 1.05em 0;
+  width: 100%;
+  text-align: center;
+}
+.avatar-upload-label {
+  font-size: 0.99em;
+  color: #3c5983;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.5em 1.1em;
+  background: #f6faff;
+  border-radius: 9px;
+  border: 1px solid #e6eeff;
+  transition: background 0.14s;
+}
+.avatar-upload-label:hover {
+  background: #e2effd;
+}
+.avatar-upload[type='file'] {
+  display: none;
+}
+.avatar-modal-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  justify-content: center;
+  margin-top: 1.15em;
+}
+
+/* === Overlay и стили модальных окон === */
+.blur-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(34, 39, 58, 0.30); /* лёгкая дымка */
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+    display: none;
+}
+
+.modal-create {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    background: transparent;
+}
+
+.modal-window-created {
+    background: var(--modal-bg, #fff);
+    box-shadow: var(--modal-shadow, 0 8px 36px 0 #40279223);
+    border-radius: 18px;
+    padding: 2.4em 2.2em 2em;
+    max-width: 370px;
+    min-width: 300px;
+    max-height: 92vh;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+@media (max-width: 520px) {
+    .modal-window-created {
+        max-width: 98vw;
+        padding: 1em 1.1em 1em;
+    }
+    .modal-create {
+        align-items: flex-start;
+        padding-top: 1.5em;
+    }
+}
+
+/* Блюр overlay (фон замыливается) */
+.blur-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 350;
+  backdrop-filter: blur(5px) brightness(0.97);
+  background: rgba(25,45,84,0.15);
+  transition: opacity 0.3s;
+  display: none;
+}
+.blur-overlay[style*='block'] {
+  display: block !important;
+}
+
 .profile-main-info {
   flex: 1;
   display: flex;
@@ -445,6 +703,14 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   align-items: flex-start;
   min-width: 130px;
   gap: 0.08em;
+}
+.profile-main-info > .profile-main-username {
+  padding-bottom: 0.32em;
+  border-bottom: 1.2px solid #e6eafa;
+  margin-bottom: 0.32em;
+}
+.profile-main-info > .profile-main-email {
+  margin-bottom: 0.22em;
 }
 .profile-main-username {
   font-size: 1.45em;
@@ -467,6 +733,9 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
   display: flex;
   flex-direction: column;
   gap: 0.9em;
+  border-left: 1.2px solid #e6eafa;
+  padding-left: 1.5em;
+  margin-left: 1.5em;
 }
 .btn.action-btn {
   min-width: 164px;
@@ -512,6 +781,12 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
     flex-direction: row;
     justify-content: flex-end;
     gap: 1em;
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+    border-top: 1.2px solid #e6eafa;
+    padding-top: 1em;
+    margin-top: 1em;
   }
   .profile-avatar-wrap {
     width: 80px;
@@ -555,6 +830,14 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
 .projects .table-block tr:hover {
   background: var(--kanban-card-hover);
   transition: background var(--transition-speed);
+}
+
+.btn, .sidebar-btn {
+  transition: color 0.2s, background 0.22s, box-shadow 0.18s, transform 0.19s;
+}
+.btn:hover, .sidebar-btn:hover {
+  box-shadow: 0 6px 24px #a0cdf336, 0 1.3px 5px #b5e0ff23;
+  transform: scale(1.038);
 }
 
 .btn {
