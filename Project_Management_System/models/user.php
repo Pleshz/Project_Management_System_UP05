@@ -9,11 +9,11 @@
         public string $Login;
         public string $Email;
         public string $Password;
-        public string $Full_Name;
-        public string $Bio;
+        public ?string $Full_Name;
+        public ?string $Bio;
         public Language $Language;
         
-        public function __construct($id, $login, $email, $password, $full_name, $bio, Language $language)
+        public function __construct($id, $login, $email, $password, $full_name = null, $bio = null, Language $language)
         {
             $this->Id = $id;
             $this->Login = $login;
