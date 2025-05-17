@@ -1,5 +1,5 @@
 <?php
-    class Project 
+    class Columns 
     {
         public int $Id;
         public string $Name;

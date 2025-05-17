@@ -4,7 +4,7 @@
         case Editor;
         case Reader;
     }
-    class Project 
+    class ProjectUser 
     {
         public int $Id;
         public int $Project_Id;
