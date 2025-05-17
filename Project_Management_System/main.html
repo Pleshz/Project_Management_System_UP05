@@ -14,7 +14,6 @@
     <nav class="icon-sidebar-nav sidebar-nav" aria-label="Навигация">
       <ul>
         <li class="sidebar-btn active" data-section="profile" aria-label="Личный кабинет" title="Личный кабинет"><span class="nav-icon">👤</span></li>
-        <li class="sidebar-btn" data-section="employees" aria-label="Все сотрудники" title="Все сотрудники"><span class="nav-icon">👥</span></li>
         <li class="sidebar-btn" data-section="projects" aria-label="Проекты" title="Проекты"><span class="nav-icon">📁</span></li>
         <li class="sidebar-btn" data-section="tasks" aria-label="Мои задачи" title="Мои задачи"><span class="nav-icon">📝</span></li>
         <li class="sidebar-btn" data-section="extra" aria-label="Что-то ещё" title="Что-то ещё"><span class="nav-icon">⚡</span></li>
@@ -66,29 +65,59 @@
 (function() {
   const navBtns = document.querySelectorAll('.sidebar-nav .sidebar-btn[data-section]');
   const appContent = document.getElementById('app-content');
+
+  function filterTasksKanban(query) {
+    // ids колонок
+    const ids = ['tasks-new', 'tasks-inprogress', 'tasks-review', 'tasks-done'];
+    ids.forEach(colId => {
+      const col = document.getElementById(colId);
+      if (!col) return;
+      const cards = col.children;
+      for (let i = 0; i < cards.length; i++) {
+        const cardText = cards[i].innerText || cards[i].textContent || '';
+        if (!query || cardText.toLowerCase().includes(query.toLowerCase())) {
+          cards[i].style.display = '';
+        } else {
+          cards[i].style.display = 'none';
+        }
+      }
+    });
+  }
+
   function setActiveSection(section) {
     navBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.section === section));
     if (section === 'profile') {
       appContent.innerHTML = `
-        <section class="profile section active">
-          <h2>Личный кабинет</h2>
-        </section>
-      `;
-    } else if (section === 'employees') {
-      appContent.innerHTML = `
-        <section class="employees section active">
-          <h2>Все сотрудники</h2>
-          <div class="table-block">
-            <table>
-              <thead>
-                <tr><th>ФИО</th><th>Почта</th><th>Роль</th></tr>
-              </thead>
-              <tbody>
-                <!-- динамически -->
-              </tbody>
-            </table>
+        <div class="profile-cover-block">
+          <div class="profile-cover-bg"></div>
+          <div class="profile-cover-content"></div>
+          <div class="profile-main-card profile-main-card--edit">
+            <div class="profile-main profile-main--split">
+              <div class="profile-main-left">
+                <div class="profile-avatar-wrap"><span class="profile-avatar">👨‍💼</span></div>
+                <div class="profile-main-info">
+                  <div class="profile-main-username">Иван Иванов</div>
+                  <div class="profile-main-email">ivan.ivanov@mail.ru</div>
+                  <div class="profile-main-meta">Руководитель проекта</div>
+                  <div class="profile-main-meta">+7 999 888-77-66</div>
+                </div>
+              </div>
+              <div class="profile-main-right">
+                <form class="profile-edit-form" autocomplete="off" onsubmit="return false;">
+                  <label>ФИО <input type="text" class="input-field" value="Иван Иванов"></label>
+                  <label>Email <input type="email" class="input-field" value="ivan.ivanov@mail.ru"></label>
+                  <label>Должность <input type="text" class="input-field" value="Руководитель проекта"></label>
+                  <label>Телефон <input type="tel" class="input-field" value="+7 999 888-77-66"></label>
+                  <div class="profile-edit-actions">
+                    <button class="btn edit-save">Сохранить информацию</button>
+                    <button class="btn edit-delete" type="button">Удалить аккаунт</button>
+                    <button class="btn edit-logout" type="button">Выйти из аккаунта</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
       `;
     } else if (section === 'projects') {
       appContent.innerHTML = `
@@ -97,7 +126,7 @@
           <div class="table-block">
             <table>
               <thead>
-                <tr><th>Название</th><th>Тип</th><th>Описание</th><th>Участников</th><th></th></tr>
+                <tr><th>Название</th><th>Тип</th><th>Описание</th><th>Участников</th></tr>
               </thead>
               <tbody><!-- динамически --></tbody>
             </table>
@@ -109,7 +138,10 @@
       appContent.innerHTML = `
         <section class="tasks section active">
           <h2>Мои задачи</h2>
-          <input type="text" id="kanban-search" placeholder="Поиск задач..." class="kanban-search" style="max-width:300px;margin-bottom:1em;">
+          <div class="task-search-bar">
+            <input type="text" id="kanban-search" placeholder="Поиск задач..." class="kanban-search">
+            <button class="btn search-btn" id="kanban-search-btn" title="Найти задачу"><span class="search-icon">🔍</span></button>
+          </div>
           <button class="btn primary" id="add-task-btn" style="margin-bottom:1.4em;">Создать задачу</button>
           <div class="kanban-board">
             <div class="kanban-col" data-status="new">
@@ -131,6 +163,18 @@
           </div>
         </section>
       `;
+      setTimeout(function() {
+        const searchInput = document.getElementById('kanban-search');
+        const searchBtn = document.getElementById('kanban-search-btn');
+        if (searchInput && searchBtn) {
+          searchBtn.onclick = function() {
+            filterTasksKanban(searchInput.value.trim());
+          };
+          searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') searchBtn.click();
+          });
+        }
+      }, 50);
     } else if (section === 'extra') {
       appContent.innerHTML = `
         <section class="other section active">
