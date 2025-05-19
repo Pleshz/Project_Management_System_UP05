@@ -3,7 +3,7 @@
         case Russian;
         case English;
     }
-    class User 
+    class User
     {
         public int $Id;
         public string $Login;
