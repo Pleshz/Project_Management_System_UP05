@@ -12,10 +12,11 @@
                 is_public: $data['is_public'],
             );
        } 
+
        public static function select():array
        {
             $allProjects = [];
-            $sql = "SELECT * FROM `projects`;";
+            $sql = "SELECT * FROM `Projects`;";
             $connection = Connection::openConnection();
             $result = Connection::query($sql, $connection);
             
@@ -26,5 +27,46 @@
             Connection::closeConnection($connection);
             return $allProjects;
        }
+
+       public function add(): void
+        {
+            $sql = "INSERT INTO `Projects` (`name`, `description`, `is_public`) VALUES (?, ?, ?)";
+            $connection = Connection::openConnection();
+            $stmt = $connection->prepare($sql);
+            $name = $this->Name;
+            $description = $this->Description;
+            $is_public = $this->Is_Public;
+               
+            $stmt->bind_param("ssb", $name, $description, $is_public);
+            $stmt->execute();
+            $stmt->close();
+            Connection::closeConnection($connection);
+        }
+
+        public function update(): void
+        {
+            $sql = "UPDATE `Projects` SET `name` = ?, `description` = ?, `is_public` = ? WHERE `id` = ?";
+            $connection = Connection::openConnection();
+            $stmt = $connection->prepare($sql);
+            $name = $this->Name;
+            $description = $this->Description;
+            $is_public = $this->Is_Public;
+            $id = $this->Id;
+            $stmt->bind_param("ssbi", $name, $description, $is_public, $id);
+            $stmt->execute();
+            $stmt->close();
+            Connection::closeConnection($connection);
+        }
+
+        public function delete(): void
+        {
+            $sql = "DELETE FROM `Projects` WHERE `id` = ?";
+            $connection = Connection::openConnection();
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param("i", $this->Id);
+            $stmt->execute();
+            $stmt->close();
+            Connection::closeConnection($connection);
+        }
     }
 ?>
