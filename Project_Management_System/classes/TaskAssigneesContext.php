@@ -7,18 +7,19 @@
         public function __construct(array $data)
         {
             parent::__construct(
-                $data['id'],
-                $data['task_id'],
-                $data['user_id']
+                id: $data['id'],
+                task_id: $data['task_id'],
+                user_id: $data['user_id']
             );
         }
     
         public static function select(): array
         {
             $all = [];
-            $sql = "SELECT * FROM `taskassignees`;";
+            $sql = "SELECT * FROM `TaskAssignees`;";
             $connection = Connection::openConnection();
             $result = Connection::query($sql, $connection);
+
             while ($row = $result->fetch_assoc()) {
                 $all[] = new TaskAssigneesContext($row);
             }
@@ -28,10 +29,12 @@
     
         public function add(): void
         {
-            $sql = "INSERT INTO `taskassignees` (`task_id`, `user_id`) VALUES (?, ?)";
+            $sql = "INSERT INTO `TaskAssignees` (`task_id`, `user_id`) VALUES (?, ?)";
             $connection = Connection::openConnection();
             $stmt = $connection->prepare($sql);
-            $stmt->bind_param("ii", $this->Task_Id, $this->User_Id);
+            $task_id = $this->Task_Id;
+            $user_id = $this->User_Id;
+            $stmt->bind_param("ii", $task_id, $user_id);
             $stmt->execute();
             $stmt->close();
             Connection::closeConnection($connection);
@@ -39,10 +42,13 @@
     
         public function update(): void
         {
-            $sql = "UPDATE `taskassignees` SET `task_id` = ?, `user_id` = ? WHERE `id` = ?";
+            $sql = "UPDATE `TaskAssignees` SET `task_id` = ?, `user_id` = ? WHERE `id` = ?";
             $connection = Connection::openConnection();
             $stmt = $connection->prepare($sql);
-            $stmt->bind_param("iii", $this->Task_Id, $this->User_Id, $this->Id);
+            $task_id = $this->Task_Id;
+            $user_id = $this->User_Id;
+            $id = $this->Id;
+            $stmt->bind_param("iii", $task_id, $user_id, $id);
             $stmt->execute();
             $stmt->close();
             Connection::closeConnection($connection);
@@ -50,7 +56,7 @@
     
         public function delete(): void
         {
-            $sql = "DELETE FROM `taskassignees` WHERE `id` = ?";
+            $sql = "DELETE FROM `TaskAssignees` WHERE `id` = ?";
             $connection = Connection::openConnection();
             $stmt = $connection->prepare($sql);
             $stmt->bind_param("i", $this->Id);
