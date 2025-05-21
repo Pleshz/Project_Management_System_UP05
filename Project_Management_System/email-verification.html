@@ -33,12 +33,16 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const email = urlParams.get('email');
-
-      if (!email) {
-        showHint('Ошибка: Email не указан', true);
-        return;
+      let email = null;
+      try {
+        // Получаем email из URL-параметров корректно, декодируем
+        const urlParams = new URLSearchParams(window.location.search);
+        email = urlParams.get('email');
+        if (email) {
+          email = decodeURIComponent(email);
+        }
+      } catch (err) {
+        email = null;
       }
 
       const codeInputs = document.querySelectorAll('.code-input');
@@ -47,12 +51,31 @@
       const hintElement = document.querySelector('.modal-hint');
       const closeButton = document.querySelector('.modal-close-btn');
 
+      function showHint(message, isError = false) {
+        hintElement.textContent = message;
+        hintElement.style.color = isError ? '#e8633a' : '#4caf50';
+
+        if (!isError) {
+          setTimeout(() => {
+            hintElement.textContent = '';
+          }, 5000);
+        }
+      }
+
+      if (!email) {
+        showHint('Ошибка: Email не указан', true);
+        // Отключаем кнопки, чтобы пользователь не мог отправить код
+        submitButton.disabled = true;
+        resendButton.disabled = true;
+        codeInputs.forEach(input => input.disabled = true);
+        return;
+      }
+
       codeInputs[0].focus();
 
       codeInputs.forEach((input, index) => {
         input.addEventListener('input', function(e) {
           const value = e.target.value;
-
           e.target.value = value.replace(/[^0-9]/g, '');
 
           if (e.target.value && index < codeInputs.length - 1) {
@@ -75,7 +98,7 @@
           code += input.value;
         });
 
-        if (code.length !== 6) {
+        if (code.length !== 6 || !/^\d{6}$/.test(code)) {
           showHint('Введите полный код подтверждения', true);
           return;
         }
@@ -88,31 +111,39 @@
       });
 
       closeButton.addEventListener('click', function() {
-        window.location.href = 'index.html';
-      });
-
-      function showHint(message, isError = false) {
-        hintElement.textContent = message;
-        hintElement.style.color = isError ? '#e8633a' : '#4caf50';
-
-        if (!isError) {
-          setTimeout(() => {
-            hintElement.textContent = '';
-          }, 5000);
+        // Если мы внутри iframe модального окна
+        if (window.parent !== window) {
+          const modalContainer = window.parent.document.getElementById('modal-container');
+          if (modalContainer) {
+            modalContainer.innerHTML = '';
+          }
+          // Очищаем параметры email из URL
+          try {
+            const url = new URL(window.parent.location);
+            url.searchParams.delete('email');
+            window.parent.history.replaceState({}, '', url);
+          } catch (e) {}
+        } else {
+          window.location.href = 'index.html';
         }
-      }
+      });
 
       async function verifyCode(email, code) {
         try {
           submitButton.disabled = true;
+          showHint('Проверка кода...', false);
 
-          const response = await fetch('api/verify-email.php', {
+          const response = await fetch('api/complete-registration.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email, code })
           });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
 
           const result = await response.json();
 
@@ -122,7 +153,7 @@
               window.location.href = 'index.html';
             }, 2000);
           } else {
-            showHint(result.message, true);
+            showHint(result.message || 'Неверный код подтверждения', true);
           }
         } catch (error) {
           showHint('Произошла ошибка при проверке кода', true);
@@ -145,6 +176,10 @@
             body: JSON.stringify({ email })
           });
 
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
           const result = await response.json();
 
           if (result.success) {
@@ -155,7 +190,7 @@
             });
             codeInputs[0].focus();
           } else {
-            showHint(result.message, true);
+            showHint(result.message || 'Не удалось отправить код', true);
           }
         } catch (error) {
           showHint('Произошла ошибка при отправке кода', true);

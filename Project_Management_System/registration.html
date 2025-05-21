@@ -96,17 +96,64 @@
 <script>
   function showEmailVerificationModal() {
     event.preventDefault();
-    fetch('email-verification.html')
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById('modal-container').innerHTML = html;
-        const closeBtn = document.querySelector('#modal-container .modal-close-btn');
-        if (closeBtn) {
-          closeBtn.addEventListener('click', function() {
-            document.getElementById('modal-container').innerHTML = '';
+
+    const email = document.getElementById('register-email').value;
+    const login = document.getElementById('register-login').value;
+    const password = document.getElementById('register-password').value;
+    const passwordRepeat = document.getElementById('register-password-repeat').value;
+    const language = document.getElementById('register-language').value;
+
+    if (password !== passwordRepeat) {
+      alert('Пароли не совпадают');
+      return;
+    }
+
+    if (!language) {
+      alert('Выберите язык');
+      return;
+    }
+
+    const userData = {
+      email: email,
+      login: login,
+      password: password,
+      language: language
+    };
+
+    fetch('api/register.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        fetch('email-verification.html')
+          .then(response => response.text())
+          .then(html => {
+            document.getElementById('modal-container').innerHTML = html;
+            const emailParam = new URLSearchParams(window.location.search);
+            emailParam.set('email', email);
+            history.replaceState(null, '', `${window.location.pathname}?${emailParam}`);
+
+            const closeBtn = document.querySelector('#modal-container .modal-close-btn');
+            if (closeBtn) {
+              closeBtn.addEventListener('click', function() {
+                document.getElementById('modal-container').innerHTML = '';
+                history.replaceState(null, '', window.location.pathname);
+              });
+            }
           });
-        }
-      });
+      } else {
+        alert(data.message || 'Ошибка при регистрации');
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+      alert('Произошла ошибка при регистрации');
+    });
   }
 </script>
 </body>
