@@ -26,18 +26,16 @@
         public string $Email;
         public string $Password;
         public Language $Language;
-        public bool $IsEmailVerified;
         public ?string $Full_Name;
         public ?string $Bio;
 
-        public function __construct($id, $login, $email, $password, Language $language, $isEmailVerified = false, $full_name = null, $bio = null)
+        public function __construct($id, $login, $email, $password, Language $language, $full_name = null, $bio = null)
         {
             $this->Id = $id;
             $this->Login = $login;
             $this->Email = $email;
             $this->Password = $password;
             $this->Language = $language;
-            $this->IsEmailVerified = $isEmailVerified;
             $this->Full_Name = $full_name;
             $this->Bio = $bio;
         }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 21 2025 г., 10:18
+-- Время создания: Май 21 2025 г., 11:38
 -- Версия сервера: 5.7.39-log
 -- Версия PHP: 8.1.9
 
@@ -114,40 +114,8 @@ CREATE TABLE `Users` (
   `password` varchar(120) NOT NULL,
   `full_name` varchar(120) DEFAULT NULL,
   `bio` text,
-  `language` enum('en','ru') NOT NULL,
-  `is_email_verified` tinyint(4) NOT NULL DEFAULT '0'
+  `language` enum('en','ru') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Дамп данных таблицы `Users`
---
-
-INSERT INTO `Users` (`id`, `login`, `email`, `password`, `full_name`, `bio`, `language`, `is_email_verified`) VALUES
-(1, 'stas', 'starkillerlol76@gmail.com', '$2y$10$gkoVYUbb01XqLNo2/PnoKujdUFOMveyhHm5SdC2RC//ZuiLeWfk4e', '', NULL, 'ru', 1);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `verification_codes`
---
-
-CREATE TABLE `verification_codes` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` int(11) NOT NULL,
-  `expires_at` int(11) NOT NULL,
-  `is_used` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `verification_codes`
---
-
-INSERT INTO `verification_codes` (`id`, `user_id`, `code`, `email`, `created_at`, `expires_at`, `is_used`) VALUES
-(1, 1, '668714', 'starkillerlol76@gmail.com', 1747809610, 1747813210, 1),
-(2, 2, '397975', 'pleskovd96@gmail.com', 1747810495, 1747814095, 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -207,12 +175,6 @@ ALTER TABLE `Users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Индексы таблицы `verification_codes`
---
-ALTER TABLE `verification_codes`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -256,12 +218,6 @@ ALTER TABLE `Tasks`
 -- AUTO_INCREMENT для таблицы `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT для таблицы `verification_codes`
---
-ALTER TABLE `verification_codes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
