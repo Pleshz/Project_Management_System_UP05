@@ -54,11 +54,6 @@
     <div class="avatar-choices">
       <label class="avatar-choice"><input type="radio" name="avatar" checked><span class="ava-ico">👨‍💼</span></label>
       <label class="avatar-choice"><input type="radio" name="avatar"><span class="ava-ico">👩‍💼</span></label>
-      <label class="avatar-choice"><input type="radio" name="avatar"><span class="ava-ico">🧑‍💻</span></label>
-      <label class="avatar-choice"><input type="radio" name="avatar"><span class="ava-ico">🧑‍🎨</span></label>
-    </div>
-    <div class="avatar-upload-block">
-      <label class="avatar-upload-label">Загрузить своё фото <input type="file" accept="image/*" class="avatar-upload"></label>
     </div>
     <div class="avatar-modal-actions">
       <button class="btn modal-avatar-save">Сохранить</button>
@@ -93,6 +88,7 @@
     </form>
   </div>
 </div>
+
 <div class="modal-create modal-create-task" id="modal-create-task" style="display:none;">
   <div class="modal-window-created">
     <h3>Создать задачу</h3>
@@ -221,16 +217,15 @@
                 <div class="profile-main-info">
                   <div class="profile-main-username">Иван Иванов</div>
                   <div class="profile-main-email">ivan.ivanov@mail.ru</div>
-                  <div class="profile-main-meta">Руководитель проекта</div>
-                  <div class="profile-main-meta">+7 999 888-77-66</div>
+                  <div class=""> </div>
                 </div>
               </div>
               <div class="profile-main-right">
                 <form class="profile-edit-form" autocomplete="off" onsubmit="return false;">
                   <label>ФИО <input type="text" class="input-field" value="Иван Иванов"></label>
+                  <label>Логин <input type="text" class="input-field login-field" value="ivanov"></label>
                   <label>Email <input type="email" class="input-field" value="ivan.ivanov@mail.ru"></label>
-                  <label>Должность <input type="text" class="input-field" value="Руководитель проекта"></label>
-                  <label>Телефон <input type="tel" class="input-field" value="+7 999 888-77-66"></label>
+                  <label>Описание профиля <textarea class="input-field bio-field" rows="3"></textarea></label>
                   <div class="profile-edit-actions">
                     <button class="btn edit-save">Сохранить информацию</button>
                     <button class="btn edit-delete" type="button">Удалить аккаунт</button>
@@ -336,6 +331,29 @@
     btn.addEventListener('click', () => setActiveSection(btn.dataset.section));
   });
   setActiveSection('profile');
+
+  // Обработчик переключения темы
+  const themeBtn = document.getElementById('theme-btn-sidebar');
+  if (themeBtn) {
+    // Проверяем сохраненную тему при загрузке страницы
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-theme');
+      themeBtn.querySelector('.theme-icon').textContent = '☀️';
+    }
+
+    themeBtn.addEventListener('click', function() {
+      // Переключаем тему
+      if (document.body.classList.contains('dark-theme')) {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('theme', 'light');
+        themeBtn.querySelector('.theme-icon').textContent = '🌙';
+      } else {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+        themeBtn.querySelector('.theme-icon').textContent = '☀️';
+      }
+    });
+  }
 })();
 </script>
 <script src="js/projects.js"></script>

@@ -131,14 +131,27 @@ function displayUserProfile(userData) {
   const profileAvatar = document.querySelector('.profile-avatar');
   const profileUsername = document.querySelector('.profile-main-username');
   const profileEmail = document.querySelector('.profile-main-email');
-  const profileFullName = document.querySelector('.profile-edit-form input[type="text"]');
-  const profileEmailInput = document.querySelector('.profile-edit-form input[type="email"]');
-  const profilePhone = document.querySelector('.profile-edit-form input[type="tel"]');
+  const profilePhone = document.querySelector('.profile-main-meta.phone-meta');
+  const profileBioText = document.querySelector('.profile-bio-text');
 
+  const profileFullName = document.querySelector('.profile-edit-form input[type="text"]');
+  const profileLoginInput = document.querySelector('.profile-edit-form .login-field');
+  const profileEmailInput = document.querySelector('.profile-edit-form input[type="email"]');
+  const profilePhoneInput = document.querySelector('.profile-edit-form input[type="tel"]');
+  const profileBioInput = document.querySelector('.profile-edit-form .bio-field');
+
+  // Обновляем отображаемую информацию в левой колонке
   if (profileUsername) profileUsername.textContent = userData.login;
   if (profileEmail) profileEmail.textContent = userData.email;
+  if (profilePhone) profilePhone.textContent = userData.phone || '+7 999 888-77-66';
+  if (profileBioText) profileBioText.textContent = userData.bio || 'Информация не указана';
+
+  // Обновляем поля формы редактирования
   if (profileFullName) profileFullName.value = userData.full_name || '';
+  if (profileLoginInput) profileLoginInput.value = userData.login || '';
   if (profileEmailInput) profileEmailInput.value = userData.email || '';
+  if (profilePhoneInput) profilePhoneInput.value = userData.phone || '';
+  if (profileBioInput) profileBioInput.value = userData.bio || '';
 
   localStorage.setItem('user_id', userData.id);
   localStorage.setItem('user_login', userData.login);
@@ -246,12 +259,17 @@ document.addEventListener('DOMContentLoaded', function() {
           e.preventDefault();
 
           const fullNameInput = document.querySelector('.profile-edit-form input[value]');
+          const loginInput = document.querySelector('.profile-edit-form .login-field');
           const emailInput = document.querySelector('.profile-edit-form input[type="email"]');
           const phoneInput = document.querySelector('.profile-edit-form input[type="tel"]');
+          const bioInput = document.querySelector('.profile-edit-form .bio-field');
 
           const userData = {
             full_name: fullNameInput ? fullNameInput.value.trim() : '',
+            login: loginInput ? loginInput.value.trim() : '',
             email: emailInput ? emailInput.value.trim() : '',
+            phone: phoneInput ? phoneInput.value.trim() : '',
+            bio: bioInput ? bioInput.value.trim() : '',
           };
 
           updateUser(userData)

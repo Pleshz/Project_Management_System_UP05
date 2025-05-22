@@ -255,7 +255,7 @@
 
                 $updatedUserData = [
                     'id' => $userId,
-                    'login' => $currentUserData['login'],
+                    'login' => isset($postData['login']) && !empty($postData['login']) ? $postData['login'] : $currentUserData['login'],
                     'email' => $postData['email'] ?? $currentUserData['email'],
                     'password' => $currentUserData['password'],
                     'language' => $postData['language'] ?? $currentUserData['language'],
@@ -263,6 +263,21 @@
                     'bio' => $postData['bio'] ?? $currentUserData['bio'],
                     'is_email_verified' => $currentUserData['is_email_verified']
                 ];
+
+                // Проверяем, если логин изменился
+                if (isset($postData['login']) && $postData['login'] !== $currentUserData['login']) {
+                    // Проверяем, что такой логин не занят другим пользователем
+                    $stmt = $connection->prepare("SELECT COUNT(*) as count FROM Users WHERE login = ? AND id != ?");
+                    $login = $postData['login'];
+                    $stmt->bind_param("si", $login, $userId);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+
+                    if ($row['count'] > 0) {
+                        throw new Exception('Логин уже используется другим пользователем');
+                    }
+                }
 
                 if (isset($postData['new_password']) && !empty($postData['new_password'])) {
                     if (!isset($postData['current_password']) || empty($postData['current_password'])) {
@@ -353,7 +368,7 @@
 
                     $userData = [
                         'id' => $_SESSION['user_id'],
-                        'login' => '', 
+                        'login' => '',
                         'email' => '',
                         'password' => '',
                         'language' => 'ru',

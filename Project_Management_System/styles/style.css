@@ -1,5 +1,3 @@
-
-
 :root {
   --main-bg: #f4f6fb;
   --container-bg: #fff;
@@ -28,6 +26,35 @@
   --accent-green: #3fdab7;
   --accent-yellow: #ffd95c;
   --transition-speed: .28s;
+}
+
+body.dark-theme {
+  --main-bg: #1a1e2b;
+  --container-bg: #252a3d;
+  --border-col: #3e4357;
+  --text-main: #e9eaf2;
+  --text-light: #9ca0b3;
+  --kanban-card-bg: #2d334a;
+  --kanban-card-hover: #353c54;
+  --kanban-card-shadow: #12141f36;
+  --btn-bg: #2f354d;
+  --btn-txt: #e9eaf2;
+  --btn-primary-bg: linear-gradient(99deg, #d93636 75%, #ff7575);
+  --btn-danger-bg: #ee5d58;
+  --btn-danger-hover: #dd3132;
+  --btn-secondary-bg: #3a4159;
+  --modal-bg: #252a3d;
+  --modal-shadow: 0 8px 36px 0 #0c0c1023, 0 2px 8px 0 #0c0c101c;
+  --input-focus: #d93636;
+  --input-bg: #2d334a;
+  --input-border: #3e4357;
+  --link: #d93636;
+  --link-hover: #ff5757;
+  --accent-blue: #d93636;
+  --accent-blue-light: #ff5757;
+  --accent-red: #ee5d58;
+  --accent-green: #3fdab7;
+  --accent-yellow: #ffd95c;
 }
 
 html, body, .main-content, .auth-theme,
@@ -484,7 +511,6 @@ body.auth-theme.dark-theme .link:hover { color: #fff; }
 
 .profile-main {
   display: flex;
-  align-items: center;
   width: 100%;
   gap: 2.2em;
 }
@@ -1397,4 +1423,88 @@ h2 {
 @media (max-width:420px){
   .card-title, .mini-indicator{font-size:1.07em;}
   .kanban-card{border-radius:13px;}
+}
+
+/* Специальные стили для темной темы */
+body.dark-theme .profile-main-card,
+body.dark-theme .profile-main-card--edit {
+  background: var(--container-bg);
+  box-shadow: 0 6px 38px #0c0c3035, 0 0.7px 1px #181c2a66;
+}
+
+body.dark-theme .profile-cover-bg {
+  background: linear-gradient(97deg, #d93636 0%, #ff7575 85%);
+}
+
+body.dark-theme .profile-main-username {
+  color: #e9eaf2;
+}
+
+body.dark-theme .profile-main-email {
+  color: #c4c8e5;
+}
+
+body.dark-theme .profile-main-meta {
+  color: #9ca0b3;
+}
+
+body.dark-theme .profile-edit-form label {
+  color: #c4c8e5;
+}
+
+body.dark-theme .profile-edit-form .input-field {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-main);
+}
+
+body.dark-theme .profile-edit-form .input-field:focus {
+  background: #353c54;
+  border-color: #d93636;
+}
+
+body.dark-theme .profile-edit-form label:not(:last-of-type) {
+  border-bottom: 1.1px solid #3e4357;
+}
+
+body.dark-theme .profile-edit-actions {
+  border-top: 1.4px solid #3e4357;
+}
+
+body.dark-theme .btn.edit-save {
+  background: linear-gradient(99deg, #d93636 60%, #ff7575 120%);
+}
+
+body.dark-theme .btn.edit-save:hover {
+  background: linear-gradient(99deg, #c42e2e 60%, #ff7575 120%);
+}
+
+body.dark-theme .btn.edit-delete {
+  background: #3a2c2c;
+  color: #ff8282;
+}
+
+body.dark-theme .btn.edit-delete:hover {
+  background: #4c2828;
+  color: #ff9494;
+}
+
+body.dark-theme .btn.edit-logout {
+  background: #2c2f3a;
+  color: #9ca0b3;
+}
+
+body.dark-theme .btn.edit-logout:hover {
+  background: #2a2d3c;
+  color: #e9eaf2;
+}
+
+body.dark-theme .profile-avatar-wrap {
+  background: linear-gradient(120deg, #d93636 50%, #ff7575 100%);
+}
+
+body.dark-theme .profile-avatar-wrap:hover,
+body.dark-theme .profile-avatar-wrap:focus {
+  box-shadow: 0 0 0 5px #d9363670, 0 3px 20px #d9363655;
+  background: linear-gradient(120deg, #c42e2e 54%, #ff8c8c 96%);
 }
