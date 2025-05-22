@@ -14,8 +14,7 @@
                     ? $data['language']
                     : Language::fromString($data['language']),
                 full_name: $data['full_name'] ?? null,
-                bio: $data['bio'] ?? null,
-                isEmailVerified: $data['is_email_verified'] ?? false
+                bio: $data['bio'] ?? null
             );
         }
 
@@ -36,7 +35,7 @@
 
         public function add(): void
         {
-            $sql = "INSERT INTO `Users` (`login`, `email`, `password`, `full_name`, `bio`, `language`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO `Users` (`login`, `email`, `password`, `full_name`, `bio`, `language`) VALUES (?, ?, ?, ?, ?, ?)";
             $connection = Connection::openConnection();
             $stmt = $connection->prepare($sql);
             $login = $this->Login;
@@ -46,7 +45,7 @@
             $bio = $this->Bio;
             $language = $this->Language instanceof Language ? $this->Language->shortCode() : $this->Language;
 
-            $stmt->bind_param("ssssssi", $login, $email, $password, $full_name, $bio, $language, $isEmailVerified);
+            $stmt->bind_param("ssssss", $login, $email, $password, $full_name, $bio, $language);
             $stmt->execute();
             $this->Id = $connection->insert_id;
             $stmt->close();
@@ -65,7 +64,7 @@
             $bio = $this->Bio;
             $language = $this->Language instanceof Language ? $this->Language->shortCode() : $this->Language;
             $id = $this->Id;
-            $stmt->bind_param("ssssssii", $login, $email, $password, $full_name, $bio, $language, $id);
+            $stmt->bind_param("ssssssi", $login, $email, $password, $full_name, $bio, $language, $id);
             $stmt->execute();
             $stmt->close();
             Connection::closeConnection($connection);

@@ -35,9 +35,9 @@
             $stmt = $connection->prepare($sql);
             $name = $this->Name;
             $description = $this->Description;
-            $is_public = $this->Is_Public;
+            $is_public = $this->Is_Public ? 1 : 0;
                
-            $stmt->bind_param("ssb", $name, $description, $is_public);
+            $stmt->bind_param("ssi", $name, $description, $is_public);
             $stmt->execute();
             $stmt->close();
             Connection::closeConnection($connection);
@@ -50,9 +50,9 @@
             $stmt = $connection->prepare($sql);
             $name = $this->Name;
             $description = $this->Description;
-            $is_public = $this->Is_Public;
+            $is_public = $this->Is_Public ? 1 : 0;
             $id = $this->Id;
-            $stmt->bind_param("ssbi", $name, $description, $is_public, $id);
+            $stmt->bind_param("ssii", $name, $description, $is_public, $id);
             $stmt->execute();
             $stmt->close();
             Connection::closeConnection($connection);

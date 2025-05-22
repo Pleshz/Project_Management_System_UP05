@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="styles/sidebar.css">
     <title>Project Manager</title>
     <style>
-      /* Анимация пульсации для кнопки сайдбара */
       .pulse-animation {
         animation: pulseSidebarBtn 1.5s ease-in-out infinite;
         position: relative;
@@ -46,11 +45,9 @@
     </div>
   </aside>
   <main class="main-content" id="app-content">
-    <!-- Контент -->
   </main>
 </div>
 
-<!-- Модальное окно выбора аватара -->
 <div class="modal-avatar-overlay" id="modal-avatar-overlay" style="display:none;">
   <div class="modal-avatar">
     <h3>Выберите аватар</h3>
@@ -70,39 +67,36 @@
   </div>
 </div>
 
-<!-- Overlay для блёра фона (универсальный, можно использовать для любых модалок) -->
 <div id="blur-overlay" class="blur-overlay" style="display:none;"></div>
 
-<!-- Модальное окно создания проекта-->
 <div class="modal-create modal-create-project" id="modal-create-project" style="display:none;">
   <div class="modal-window-created">
     <h3>Создать проект</h3>
-    <form autocomplete="off">
+    <form id="create-project-form" autocomplete="off">
       <label>Название проекта
-        <input type="text" class="input-field" placeholder="Название проекта">
+        <input type="text" class="input-field" name="project_name" placeholder="Название проекта">
       </label>
       <label>Описание
-        <textarea class="input-field" rows="3" placeholder="Кратко опишите проект..."></textarea>
+        <textarea class="input-field" name="project_description" rows="3" placeholder="Кратко опишите проект..."></textarea>
       </label>
       <label>Тип
-        <select class="input-field">
+        <select class="input-field" name="project_type">
           <option value="">Выберите тип</option>
-          <option>Открытый</option>
-          <option>Закрытый</option>
+          <option value="public">Открытый</option>
+          <option value="private">Закрытый</option>
         </select>
       </label>
       <div class="modal-create-actions">
-        <button class="btn create-btn">Создать</button>
-        <button class="btn cancel-btn" onclick="this.closest('.modal-create').style.display='none';document.getElementById('blur-overlay').style.display='none';return false;">Отмена</button>
+        <button type="submit" class="btn create-btn">Создать</button>
+        <button type="button" class="btn cancel-btn" onclick="this.closest('.modal-create').style.display='none';document.getElementById('blur-overlay').style.display='none';">Отмена</button>
       </div>
     </form>
   </div>
 </div>
-<!-- Модальное окно создания задачи-->
 <div class="modal-create modal-create-task" id="modal-create-task" style="display:none;">
   <div class="modal-window-created">
     <h3>Создать задачу</h3>
-    <form autocomplete="off"> 
+    <form autocomplete="off">
       <label>Название задачи
         <input type="text" class="input-field" placeholder="Название задачи">
       </label>
@@ -125,16 +119,13 @@
 </div>
 <script>
 (function() {
-  // Получаем элементы
   const navBtns = document.querySelectorAll('.sidebar-nav .sidebar-btn[data-section]');
   const appContent = document.getElementById('app-content');
   const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
 
-  // Функция для переключения состояния бокового меню
   function toggleSidebar() {
     console.log('Переключаем состояние сайдбара');
 
-    // Принудительно добавляем/удаляем класс
     if (document.body.classList.contains('sidebar-collapsed')) {
       document.body.classList.remove('sidebar-collapsed');
       localStorage.setItem('sidebarState', 'expanded');
@@ -146,27 +137,22 @@
     }
   }
 
-  // Инициализируем сайдбар
   function initSidebar() {
     console.log('Инициализация сайдбара...');
 
-    // Добавляем анимацию пульсации для кнопки, чтобы привлечь внимание
     if (!localStorage.getItem('sidebarButtonShown')) {
       toggleSidebarBtn.classList.add('pulse-animation');
 
-      // Удаляем класс анимации после первого использования
       toggleSidebarBtn.addEventListener('click', function() {
         toggleSidebarBtn.classList.remove('pulse-animation');
         localStorage.setItem('sidebarButtonShown', 'true');
       }, { once: true });
 
-      // Также удаляем анимацию через 5 секунд
       setTimeout(function() {
         toggleSidebarBtn.classList.remove('pulse-animation');
       }, 5000);
     }
 
-    // Прикрепляем обработчик нажатия на кнопку сайдбара
     toggleSidebarBtn.addEventListener('click', function(e) {
       console.log('Клик по кнопке сайдбара!');
       toggleSidebar();
@@ -174,17 +160,14 @@
       e.stopPropagation();
     });
 
-    // Восстановление состояния сайдбара из localStorage
     if (localStorage.getItem('sidebarState') === 'collapsed') {
       document.body.classList.add('sidebar-collapsed');
     }
 
-    // На мобильных устройствах скрываем меню по умолчанию
     if (window.innerWidth <= 700 && !localStorage.getItem('sidebarState')) {
       document.body.classList.add('sidebar-collapsed');
     }
 
-    // Закрытие меню на мобильных при выборе пункта
     navBtns.forEach(btn => {
       btn.addEventListener('click', function() {
         if (window.innerWidth <= 700) {
@@ -194,19 +177,15 @@
     });
   }
 
-  // Запуск инициализации сайдбара
   initSidebar();
 
-  // Обработчик изменения размера окна для адаптивности
   window.addEventListener('resize', function() {
     if (window.innerWidth <= 700 && !localStorage.getItem('sidebarState')) {
       document.body.classList.add('sidebar-collapsed');
     }
   });
 
-  // Функция для фильтрации задач в канбан-доске
   function filterTasksKanban(query) {
-    // ids колонок
     const ids = ['tasks-new', 'tasks-inprogress', 'tasks-review', 'tasks-done'];
     ids.forEach(colId => {
       const col = document.getElementById(colId);
@@ -264,7 +243,6 @@
         </div>
       `;
 
-      // Добавим обработчик для открытия модального окна выбора аватара
       setTimeout(function() {
         const avatarWrap = appContent.querySelector('.profile-avatar-wrap');
         const modalAvatarOverlay = document.getElementById('modal-avatar-overlay');
@@ -275,7 +253,6 @@
             blurOverlay.style.display = 'block';
           });
         }
-        // Закрытие модального окна выбора аватара
         if (modalAvatarOverlay && blurOverlay) {
           const cancelBtn = modalAvatarOverlay.querySelector('.modal-avatar-cancel');
           const saveBtn = modalAvatarOverlay.querySelector('.modal-avatar-save');
@@ -285,7 +262,6 @@
           }
           if (cancelBtn) cancelBtn.onclick = closeModal;
           if (saveBtn) saveBtn.onclick = function(e) { e.preventDefault(); closeModal(); };
-          // Клик по блёру тоже закрывает
           blurOverlay.onclick = closeModal;
         }
       }, 50);
@@ -299,12 +275,14 @@
               <thead>
                 <tr><th>Название</th><th>Тип</th><th>Описание</th><th>Участников</th></tr>
               </thead>
-              <tbody><!-- динамически --></tbody>
+              <tbody id="projects-table-body"><!-- динамически --></tbody>
             </table>
             <button class="btn primary" style="margin-top:1.3em;" onclick="document.getElementById('modal-create-project').style.display='flex';document.getElementById('blur-overlay').style.display='block';">Создать проект</button>
           </div>
         </section>
       `;
+
+      setTimeout(fetchProjects, 100);
     } else if (section === 'tasks') {
       appContent.innerHTML = `
         <section class="tasks section active">
@@ -360,5 +338,7 @@
   setActiveSection('profile');
 })();
 </script>
+<script src="js/projects.js"></script>
+<script src="js/users.js"></script>
 </body>
 </html>
