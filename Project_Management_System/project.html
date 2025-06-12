@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестовый проект | Система управления проектами</title>
+    <link rel="stylesheet" href="css/project.css">
+</head>
+<body>
+    <!-- Шапка с навигацией -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">ProjectManager</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Личный кабинет</a></li>
+                        <li><a href="projects.html">Мои проекты</a></li>
+                        <li><a href="tasks.html">Мои задачи</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основное содержимое -->
+    <main class="container">
+        <div class="project-header">
+            <div>
+                <h1 class="project-title">
+                    <span>Тестовый проект</span>
+                    <span class="avatar">A</span>
+                </h1>
+                <div class="project-description">
+                    Тестовый проект для демонстрации возможностей системы управления проектами.
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span>📅</span>
+                        <span>Создан: 10.06.2025</span>
+                    </div>
+                    <div class="meta-item">
+                        <span>👤</span>
+                        <span>Владелец: Администратор</span>
+                    </div>
+                    <div class="meta-item">
+                        <span>🌐</span>
+                        <span>Общедоступный проект</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-actions">
+                <button class="btn btn-secondary" id="addColumnBtn">Добавить колонку</button>
+                <button class="btn btn-primary" id="addTaskBtn">Добавить задачу</button>
+            </div>
+        </div>
+        
+        <!-- Канбан доска -->
+        <div class="kanban-board" id="kanbanBoard">
+            <!-- Колонка "Запланировано" -->
+            <div class="kanban-column" draggable="false">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>Запланировано</span>
+                        <span class="column-count">2</span>
+                    </div>
+                    <div class="column-actions" id="columnActions1">⋮
+                        <div class="column-menu">
+                            <div class="menu-item">Переименовать</div>
+                            <div class="menu-item">Удалить</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tasks-list" id="tasksList1">
+                    <!-- Задача 1 -->
+                    <div class="task-card medium-priority" draggable="true">
+                        <div class="task-title">Разработать главную страницу</div>
+                        <div class="task-description">Создать дизайн и верстку главной страницы согласно макетам</div>
+                        <div class="task-footer">
+                            <div class="task-meta">
+                                <div class="task-subtasks">
+                                    <input type="checkbox" checked> 1/3
+                                </div>
+                                <div class="task-assignees">
+                                    <div class="avatar avatar-small">A</div>
+                                    <div class="avatar avatar-small" style="background-color: #9b59b6;">M</div>
+                                    <div class="avatar avatar-small avatar-add">+</div>
+                                </div>
+                            </div>
+                            <div class="task-due-date today">Сегодня</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Задача 2 -->
+                    <div class="task-card low-priority" draggable="true">
+                        <div class="task-title">Подготовить ТЗ для API</div>
+                        <div class="task-description">Составить техническое задание для разработки API сервера</div>
+                        <div class="task-footer">
+                            <div class="task-meta">
+                                <div class="task-assignees">
+                                    <div class="avatar avatar-small" style="background-color: #2ecc71;">D</div>
+                                    <div class="avatar avatar-small avatar-add">+</div>
+                                </div>
+                            </div>
+                            <div class="task-due-date future">15.06.2025</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-task-btn" data-column="1">+ Добавить задачу</div>
+            </div>
+            
+            <!-- Колонка "В работе" -->
+            <div class="kanban-column" draggable="false">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>В работе</span>
+                        <span class="column-count">1</span>
+                    </div>
+                    <div class="column-actions" id="columnActions2">⋮
+                        <div class="column-menu">
+                            <div class="menu-item">Переименовать</div>
+                            <div class="menu-item">Удалить</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tasks-list" id="tasksList2">
+                    <!-- Задача 3 -->
+                    <div class="task-card high-priority" draggable="true">
+                        <div class="task-title">Исправить баг с авторизацией</div>
+                        <div class="task-description">Пользователи не могут войти в систему после обновления</div>
+                        <div class="task-footer">
+                            <div class="task-meta">
+                                <div class="task-assignees">
+                                    <div class="avatar avatar-small">A</div>
+                                    <div class="avatar avatar-small avatar-add">+</div>
+                                </div>
+                            </div>
+                            <div class="task-due-date overde">Просрочено</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-task-btn" data-column="2">+ Добавить задачу</div>
+            </div>
+            
+            <!-- Колонка "На проверке" -->
+            <div class="kanban-column" draggable="false">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>На проверке</span>
+                        <span class="column-count">1</span>
+                    </div>
+                    <div class="column-actions" id="columnActions3">⋮
+                        <div class="column-menu">
+                            <div class="menu-item">Переименовать</div>
+                            <div class="menu-item">Удалить</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tasks-list" id="tasksList3">
+                    <!-- Задача 4 -->
+                    <div class="task-card" draggable="true">
+                        <div class="task-title">Обновить документацию</div>
+                        <div class="task-description">Добавить новые методы API в документацию</div>
+                        <div class="task-footer">
+                            <div class="task-meta">
+                                <div class="task-assignees">
+                                    <div class="avatar avatar-small" style="background-color: #9b59b6;">M</div>
+                                    <div class="avatar avatar-small avatar-add">+</div>
+                                </div>
+                            </div>
+                            <div class="task-due-date future">20.06.2025</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-task-btn" data-column="3">+ Добавить задачу</div>
+            </div>
+            
+            <!-- Колонка "Завершено" -->
+            <div class="kanban-column" draggable="false">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>Завершено</span>
+                        <span class="column-count">1</span>
+                    </div>
+                    <div class="column-actions" id="columnActions4">⋮
+                        <div class="column-menu">
+                            <div class="menu-item">Переименовать</div>
+                            <div class="menu-item">Удалить</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tasks-list" id="tasksList4">
+                    <!-- Задача 5 -->
+                    <div class="task-card" draggable="true">
+                        <div class="task-title">Создать репозиторий проекта</div>
+                        <div class="task-description">Настроить Git репозиторий и CI/CD</div>
+                        <div class="task-footer">
+                            <div class="task-meta">
+                                <div class="task-assignees">
+                                    <div class="avatar avatar-small">A</div>
+                                    <div class="avatar avatar-small" style="background-color: #2ecc71;">D</div>
+                                </div>
+                            </div>
+                            <div class="task-due-date">05.06.2025</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-task-btn" data-column="4">+ Добавить задачу</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно задачи -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Просмотр задачи</h3>
+                <button class="modal-close" id="taskModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label for="taskName">Название задачи</label>
+                        <input type="text" id="taskName" value="Разработать главную страницу">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDescription">Описание</label>
+                        <textarea id="taskDescription">Создать дизайн и верстку главной страницы согласно макетам. Учесть все требования клиента и адаптивность под мобильные устройства.</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskDueDate">Срок выполнения</label>
+                            <input type="date" id="taskDueDate" value="2025-06-15">
+                        </div>
+                        <div class="form-group">
+                            <label for="taskPriority">Приоритет</label>
+                            <select id="taskPriority">
+                                <option value="high">Высокий</option>
+                                <option value="medium" selected>Средний</option>
+                                <option value="low">Низкий</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Секция подзадач -->
+                    <div class="subtasks-section">
+                        <h4>Подзадачи</h4>
+                        <div class="subtasks-list">
+                            <div class="subtask-item">
+                                <input type="checkbox" class="subtask-checkbox" checked>
+                                <div class="subtask-title">Создать макет в Figma</div>
+                                <div class="subtask-actions">✏️</div>
+                            </div>
+                            <div class="subtask-item">
+                                <input type="checkbox" class="subtask-checkbox">
+                                <div class="subtask-title">Сверстать основные блоки</div>
+                                <div class="subtask-actions">✏️</div>
+                            </div>
+                            <div class="subtask-item">
+                                <input type="checkbox" class="subtask-checkbox">
+                                <div class="subtask-title">Добавить интерактивные элементы</div>
+                                <div class="subtask-actions">✏️</div>
+                            </div>
+                        </div>
+                        <div class="add-subtask">
+                            <input type="text" placeholder="Добавить подзадачу">
+                            <button type="button">Добавить</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Секция участников -->
+                    <div class="members-section">
+                        <h4>Участники</h4>
+                        <div class="members-list">
+                            <div class="member-item">
+                                <div class="member-avatar">A</div>
+                                <div class="member-name">Администратор</div>
+                                <div class="member-remove">×</div>
+                            </div>
+                            <div class="member-item">
+                                <div class="member-avatar" style="background-color: #9b59b6;">M</div>
+                                <div class="member-name">Мария Дизайнер</div>
+                                <div class="member-remove">×</div>
+                            </div>
+                        </div>
+                        <div class="add-member">
+                            <select>
+                                <option value="">Выберите участника</option>
+                                <option value="1">Администратор</option>
+                                <option value="2">Тестовый пользователь</option>
+                                <option value="3">Дмитрий Разработчик</option>
+                                <option value="4">Мария Дизайнер</option>
+                            </select>
+                            <button type="button">Добавить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelTaskBtn">Отмена</button>
+                <button class="btn btn-primary" id="saveTaskBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно новой колонки -->
+    <div class="modal" id="columnModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Добавить колонку</h3>
+                <button class="modal-close" id="columnModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="columnForm">
+                    <div class="form-group">
+                        <label for="columnName">Название колонки</label>
+                        <input type="text" id="columnName" placeholder="Например: В тестировании">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelColumnBtn">Отмена</button>
+                <button class="btn btn-primary" id="saveColumnBtn">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Простейший JavaScript для демонстрации работы интерфейса
+        document.addEventListener('DOMContentLoaded', function() {
+            // Открытие/закрытие модальных окон
+            const taskModal = document.getElementById('taskModal');
+            const columnModal = document.getElementById('columnModal');
+            
+            // Открытие модального окна задачи
+            document.querySelectorAll('.task-card, .add-task-btn').forEach(element => {
+                element.addEventListener('click', function() {
+                    taskModal.style.display = 'flex';
+                });
+            });
+            
+            // Открытие модального окна колонки
+            document.getElementById('addColumnBtn').addEventListener('click', function() {
+                columnModal.style.display = 'flex';
+            });
+            
+            // Закрытие модальных окон
+            function closeModal(modal) {
+                modal.style.display = 'none';
+            }
+            
+            document.getElementById('taskModalClose').addEventListener('click', function() {
+                closeModal(taskModal);
+            });
+            
+            document.getElementById('cancelTaskBtn').addEventListener('click', function() {
+                closeModal(taskModal);
+            });
+            
+            document.getElementById('columnModalClose').addEventListener('click', function() {
+                closeModal(columnModal);
+            });
+            
+            document.getElementById('cancelColumnBtn').addEventListener('click', function() {
+                closeModal(columnModal);
+            });
+            
+            // Закрытие при клике вне модального окна
+            [taskModal, columnModal].forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeModal(modal);
+                    }
+                });
+            });
+            
+            // Меню колонки
+            document.querySelectorAll('.column-actions').forEach(actions => {
+                actions.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const menu = this.querySelector('.column-menu');
+                    document.querySelectorAll('.column-menu').forEach(m => {
+                        if (m !== menu) m.classList.remove('show');
+                    });
+                    menu.classList.toggle('show');
+                });
+            });
+            
+            // Закрытие меню колонки при клике вне
+            document.addEventListener('click', function() {
+                document.querySelectorAll('.column-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            });
+            
+            // Заглушка для сохранения
+            document.getElementById('saveTaskBtn').addEventListener('click', function() {
+                alert('Задача сохранена! (это демо, данные не отправляются)');
+                closeModal(taskModal);
+            });
+            
+            document.getElementById('saveColumnBtn').addEventListener('click', function() {
+                alert('Колонка добавлена! (это демо, данные не отправляются)');
+                closeModal(columnModal);
+            });
+        });
+    </script>
+</body>
+</html>

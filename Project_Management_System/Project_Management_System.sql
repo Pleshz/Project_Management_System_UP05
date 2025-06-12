@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 21 2025 г., 11:38
+-- Время создания: Июн 10 2025 г., 19:07
 -- Версия сервера: 5.7.39-log
 -- Версия PHP: 8.1.9
 
@@ -45,6 +45,13 @@ CREATE TABLE `Projects` (
   `description` text,
   `is_public` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `Projects`
+--
+
+INSERT INTO `Projects` (`id`, `name`, `description`, `is_public`) VALUES
+(1, 'тестовый проект', 'тестовый проект', 1);
 
 -- --------------------------------------------------------
 
@@ -113,9 +120,15 @@ CREATE TABLE `Users` (
   `email` varchar(50) NOT NULL,
   `password` varchar(120) NOT NULL,
   `full_name` varchar(120) DEFAULT NULL,
-  `bio` text,
-  `language` enum('en','ru') NOT NULL
+  `bio` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `Users`
+--
+
+INSERT INTO `Users` (`id`, `login`, `email`, `password`, `full_name`, `bio`) VALUES
+(2, 'admin', 'admin@admin.com', '$2y$10$t4tXhENLt5P1AeGK21Di2.VbfIsT8IvlAa0hIzYPVmppygHUDkmkW', '', '');
 
 --
 -- Индексы сохранённых таблиц
@@ -188,7 +201,7 @@ ALTER TABLE `Columns`
 -- AUTO_INCREMENT для таблицы `Projects`
 --
 ALTER TABLE `Projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `ProjectUsers`

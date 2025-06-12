@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои проекты | Система управления проектами</title>
+    <link rel="stylesheet" href="css/projects.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">ProjectManager</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Личный кабинет</a></li>
+                        <li><a href="projects.html" class="active">Мои проекты</a></li>
+                        <li><a href="tasks.html">Мои задачи</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Мои проекты</h1>
+            <button class="btn btn-primary" id="createProjectBtn">Создать проект</button>
+        </div>
+        
+        <div class="projects-controls">
+            <div class="search-box">
+                <input type="text" placeholder="Поиск проектов...">
+            </div>
+            <div class="filters">
+                <button class="filter-btn active">Все</button>
+                <button class="filter-btn">Мои</button>
+                <button class="filter-btn">Участвую</button>
+                <button class="filter-btn">Общедоступные</button>
+            </div>
+        </div>
+        
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">Тестовый проект</h3>
+                    <div class="project-meta">
+                        <span>Создан: 10.06.2025</span>
+                        <span>Владелец</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">Тестовый проект для демонстрации возможностей системы управления проектами.</p>
+                    <div class="project-stats">
+                        <div class="stat">📋 3 задачи</div>
+                        <div class="stat">👥 2 участника</div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <div class="members-list">
+                        <div class="member-avatar" title="Администратор">A</div>
+                        <div class="member-avatar" style="background-color: #e74c3c;" title="Тестовый пользователь">T</div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="action-btn" title="Настройки">⚙️</button>
+                        <button class="action-btn" title="Добавить участника">👥+</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">Разработка сайта</h3>
+                    <div class="project-meta">
+                        <span>Создан: 05.06.2025</span>
+                        <span>Участник</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">Разработка корпоративного сайта компании с системой управления контентом.</p>
+                    <div class="project-stats">
+                        <div class="stat">📋 8 задач</div>
+                        <div class="stat">👥 5 участников</div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <div class="members-list">
+                        <div class="member-avatar" style="background-color: #2ecc71;" title="Менеджер">M</div>
+                        <div class="member-avatar" title="Администратор">A</div>
+                        <div class="member-avatar more">+3</div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="action-btn" title="Открыть">➡️</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">Маркетинговая кампания</h3>
+                    <div class="project-meta">
+                        <span>Создан: 01.06.2025</span>
+                        <span>Общедоступный</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">Планирование и реализация маркетинговой кампании для нового продукта.</p>
+                    <div class="project-stats">
+                        <div class="stat">📋 5 задач</div>
+                        <div class="stat">👥 4 участника</div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <div class="members-list">
+                        <div class="member-avatar" style="background-color: #9b59b6;" title="Маркетолог">M</div>
+                        <div class="member-avatar" title="Администратор">A</div>
+                        <div class="member-avatar more">+2</div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="action-btn" title="Открыть">➡️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Создать новый проект</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="projectForm">
+                    <input type="hidden" id="projectId">
+                    <div class="form-row">
+                        <label for="projectName">Название проекта</label>
+                        <input type="text" id="projectName" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="projectDescription">Описание</label>
+                        <textarea id="projectDescription"></textarea>
+                    </div>
+                    <div class="form-row form-checkbox">
+                        <input type="checkbox" id="projectIsPublic">
+                        <label for="projectIsPublic">Общедоступный проект</label>
+                    </div>
+                    <div class="form-row">
+                        <label>Участники проекта</label>
+                        <div class="members-select">
+                            <!-- Пример участников -->
+                            <div class="member-option">
+                                <input type="checkbox" id="member1" checked>
+                                <div class="member-avatar-small">A</div>
+                                <label for="member1">Администратор</label>
+                            </div>
+                            <div class="member-option">
+                                <input type="checkbox" id="member2">
+                                <div class="member-avatar-small" style="background-color: #e74c3c;">T</div>
+                                <label for="member2">Тестовый пользователь</label>
+                            </div>
+                            <div class="member-option">
+                                <input type="checkbox" id="member3">
+                                <div class="member-avatar-small" style="background-color: #2ecc71;">D</div>
+                                <label for="member3">Дмитрий Разработчик</label>
+                            </div>
+                            <div class="member-option">
+                                <input type="checkbox" id="member4">
+                                <div class="member-avatar-small" style="background-color: #9b59b6;">M</div>
+                                <label for="member4">Мария Дизайнер</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                <button class="btn btn-primary" id="saveProjectBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Простейший JavaScript для демонстрации работы модального окна
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('projectModal');
+            const createBtn = document.getElementById('createProjectBtn');
+            const closeBtn = document.getElementById('modalClose');
+            const cancelBtn = document.getElementById('cancelBtn');
+            
+            // Открытие модального окна
+            createBtn.addEventListener('click', function() {
+                document.getElementById('modalTitle').textContent = 'Создать новый проект';
+                modal.style.display = 'flex';
+            });
+            
+            // Закрытие модального окна
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+            
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+            
+            // Закрытие при клике вне модального окна
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Обработка сохранения проекта (заглушка)
+            document.getElementById('saveProjectBtn').addEventListener('click', function() {
+                alert('Проект сохранен! (это демо, данные не отправляются)');
+                closeModal();
+            });
+        });
+    </script>
+</body>
+</html>

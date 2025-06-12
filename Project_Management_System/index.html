@@ -1,53 +1,95 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Вход | Project Manager</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет | Система управления проектами</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
-<body class="auth-theme">
-  <div class="auth-container">
-    <div class="auth-card">
-      <form class="auth-form" autocomplete="off" aria-label="Вход в Project Manager">
-        <h1 class="auth-title">Вход в систему</h1>
-        <div class="auth-fields">
-          <div class="input-group">
-            <label for="login" class="input-label">Логин</label>
-            <input
-              type="text"
-              id="login"
-              name="login"
-              class="input-field"
-              placeholder="Введите логин"
-              autocomplete="username"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="password" class="input-label">Пароль</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="input-field"
-              placeholder="Введите пароль"
-              autocomplete="current-password"
-              required
-            />
-          </div>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">ProjectManager</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Личный кабинет</a></li>
+                        <li><a href="projects.html">Мои проекты</a></li>
+                        <li><a href="tasks.html">Мои задачи</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-        <div class="auth-actions">
-          <button type="submit" class="btn primary" aria-label="Войти">Авторизоваться</button>
+    </header>
+
+    <main class="container">
+        <div class="profile-container">
+            <aside class="profile-sidebar">
+                <div class="profile-header">
+                    <div class="profile-avatar">A</div>
+                    <div class="profile-info">
+                        <h2>Администратор</h2>
+                        <p>admin@admin.com</p>
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Статистика</h3>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>5</h3>
+                        <p>Проектов</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>12</h3>
+                        <p>Задач</p>
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Быстрые действия</h3>
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 10px;">Создать проект</button>
+            </aside>
+            
+            <section class="profile-content">
+                <h1 class="section-title">Настройки профиля</h1>
+                
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="full_name">Полное имя</label>
+                        <input type="text" id="full_name" name="full_name" value="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login">Логин</label>
+                        <input type="text" id="login" name="login" value="" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio">О себе</label>
+                        <textarea id="bio" name="bio"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="current_password">Текущий пароль (для подтверждения изменений)</label>
+                        <input type="password" id="current_password" name="current_password">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                        <button type="button" class="btn btn-secondary">Сменить пароль</button>
+                    </div>
+                </form>
+                
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-danger">Выйти из аккаунта</button>
+                    <button type="button" class="btn btn-danger">Удалить аккаунт</button>
+                </div>
+            </section>
         </div>
-        <nav class="auth-links" aria-label="Дополнительные действия">
-          <a href="registration.html" class="link link-secondary">Зарегистрироваться</a>
-          <a href="#" class="link link-secondary">Забыл пароль?</a>
-        </nav>
-      </form>
-    </div>
-  </div>
-  <script src="js/users.js"></script>
+    </main>
 </body>
 </html>
